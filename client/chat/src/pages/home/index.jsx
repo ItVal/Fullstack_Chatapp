@@ -15,7 +15,7 @@ const Home = () => {
           <option value='react'>React</option>
         </select>
 
-        <button className='btn btn-secondary'>Join Room</button>
+        <button className='btn btn-secondary' style={{ width: '100%' }}>Join Room</button>
       </div>
     </div>
   );
