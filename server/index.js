@@ -10,14 +10,11 @@ app.use(cors());
 const STATIC_CHANNELS = ["global_notifications", "global_chat"];
 
 //authorisation accès aux requêtes venant de l'extérieur
-
-
-
 const io = socket(http, {
   cors: {
     origin: "http://localhost:5173",
     credentials: true,
-  },
+  }
 });
 
 io.on("connection", (socket) => {
