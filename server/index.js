@@ -6,13 +6,12 @@ let socket = require("socket.io");
 const cors = require("cors");
 
 //db middleware
+require("./DataBase/mongoDB")
 
-const mongoDB = require("./DataBase/mongoDB")
+
 
 
 app.use(cors());
-
-
 
 
 //authorisation accès aux requêtes venant de l'extérieur
