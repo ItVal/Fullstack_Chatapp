@@ -12,7 +12,7 @@ exports.connectDB = (req, res, next) => {
     .catch(() => console.log('Connexion à MongoDB échouée !'));
    
 //import our tables (schemas)
-require("./User.model");
-require("./Message.model");
+// require("./User.model");
+// require("./Message.model");
 };
 
