@@ -13,7 +13,9 @@ mongoose.connection.once("open", (err) => {
     console.log("connected db successfully");
 })
 
-//create user table
+//import our tables (schemas)
+require("./User.model");
+require("./Message.model");
 
 
 module.exports = mongoose;
