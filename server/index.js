@@ -5,11 +5,13 @@ const PORT = 2080;
 let socket = require("socket.io");
 const cors = require("cors");
 
+//db middleware
+require("./DataBase/mongoDB")
+
+
+
+//authorisation accès aux requêtes venant du front
 app.use(cors());
-
-
-
-//authorisation accès aux requêtes venant de l'extérieur
 const io = socket(http, {
   cors: {
     origin: "http://localhost:5173",
@@ -28,5 +30,5 @@ io.on("connection", (socket) => {
 
 
 http.listen(PORT, () => {
-    console.log(`listening on *:${PORT}`);
+    console.log(`listening on port :${PORT}`);
   });
