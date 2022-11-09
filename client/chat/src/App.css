@@ -1,0 +1,9 @@
+.chat-app{ 
+  position: absolute; /* postulat de départ */
+  top: 50%; left: 50%; /* à 50%/50% du parent référent */
+  transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+  margin-left: 35px;
+  padding-bottom: 35px;
+ 
+}
+
