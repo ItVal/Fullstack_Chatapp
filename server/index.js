@@ -5,7 +5,13 @@ const PORT = 2080;
 let socket = require("socket.io");
 const cors = require("cors");
 
+//db middleware
+
+const mongoDB = require("./DataBase/mongoDB")
+
+
 app.use(cors());
+
 
 
 
@@ -28,5 +34,5 @@ io.on("connection", (socket) => {
 
 
 http.listen(PORT, () => {
-    console.log(`listening on *:${PORT}`);
+    console.log(`listening on port :${PORT}`);
   });
