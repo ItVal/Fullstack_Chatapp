@@ -10,11 +10,8 @@ require("./DataBase/mongoDB")
 
 
 
-
+//authorisation accès aux requêtes venant du front
 app.use(cors());
-
-
-//authorisation accès aux requêtes venant de l'extérieur
 const io = socket(http, {
   cors: {
     origin: "http://localhost:5173",
