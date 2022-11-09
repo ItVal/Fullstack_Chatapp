@@ -7,7 +7,7 @@ const cors = require("cors");
 
 app.use(cors());
 
-const STATIC_CHANNELS = ["global_notifications", "global_chat"];
+
 
 //authorisation accès aux requêtes venant de l'extérieur
 const io = socket(http, {
@@ -21,9 +21,8 @@ io.on("connection", (socket) => {
   /* notification pour un client connecter */
   console.log("new client connected");
   socket.emit("connection", null); //evenement personnalisé du back vers le font
-});
-
-
+  
+})
 
 
 

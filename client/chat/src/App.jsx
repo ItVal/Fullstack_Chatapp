@@ -11,7 +11,7 @@ function App() {
   });
   return <div className="App">
     <Chat />
-  </div>;
+  </div>; 
 }
 
 export default App;
