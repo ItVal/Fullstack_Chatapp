@@ -1,17 +1,21 @@
-import React from "react";
-import "./App.css";
-import socketClient from "socket.io-client";
-import { Chat } from "./chater/Chat";
-const SERVER = "http://127.0.0.1:2080";
+import React from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Login from "./Pages/Login";
+import Register from './Pages/Register';
+import Dashboard from './Pages/Dashboard';
 
-function App() {
-  let socket = socketClient(SERVER);
-  socket.on('connection', () => {
-      console.log(`Je suis connecté avec le backend`);
-  });
-  return <div className="App">
-    <Chat />
-  </div>; 
+function App () {
+  return (
+    <div>
+      <BrowserRouter> 
+        <Routes> 
+          <Route path="/login" element={<Login />} />,
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes> 
+      </BrowserRouter>
+    </div>
+  )
 }
 
 export default App;
