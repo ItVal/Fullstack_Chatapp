@@ -11,8 +11,5 @@ exports.connectDB = (req, res, next) => {
     .then((res) => console.log("conection a la db reussi"))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
    
-//import our tables (schemas)
-// require("./User.model");
-// require("./Message.model");
 };
 
