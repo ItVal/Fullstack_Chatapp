@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from "./Pages/Login";
 import Register from './Pages/Register';
 import Dashboard from './Pages/Dashboard';
+import Channel from './Pages/Channel';
 import Index from './Pages/Index';
 
 
@@ -16,6 +17,7 @@ function App () {
           <Route path="/login" element={<Login />} exact />
           <Route path="/register" element={<Register />} exact />
           <Route path="/dashboard" element={<Dashboard />} exact />
+          <Route path="/channel/:id" element={<Channel />} exact />
         </Routes> 
       </BrowserRouter>
     </div>
