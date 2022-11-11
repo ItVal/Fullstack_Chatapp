@@ -1,12 +1,14 @@
-import React from 'react'
-// import makeToast from "../Toaster";
+import React, { useState, useEffect } from "react";
+import makeToast from "../Toaster";
 import axios from "axios";
 // import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
-
+  const navigate = useNavigate();
+  const [isAuth, setIsAuth] = useState(false);
   const loginUser = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -19,8 +21,10 @@ const Login = (props) => {
       .then((response) => {
         makeToast("success", response.data.message);
         localStorage.setItem("CC_Token", response.data.token);
-        props.history.push("/dashboard");
+        console.log(response.data);
+        setIsAuth(true);
         props.setupSocket();
+        props.navigate("/dashboard");
       })
       .catch((err) => {
         // console.log(err);
@@ -33,6 +37,11 @@ const Login = (props) => {
           makeToast("error", err.response.data.message);
       });
   };
+
+  useEffect(() => {
+    console.log(isAuth);
+    if (isAuth) navigate("/dashboard");
+  }, [isAuth, navigate]);
 
   return (
     <div className="card">

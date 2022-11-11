@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-// import makeToast from "../Toaster";
+import makeToast from "../Toaster";
 
 const Register = (props) => {
   const nameRef = React.createRef();
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
+  const navigate = useNavigate();
+
+  const [isAuth, setIsAuth] = useState(false);
 
   const registerUser = (props) => {
     const name = nameRef.current.value;
@@ -21,7 +25,8 @@ const Register = (props) => {
       })
       .then((response) => {
         makeToast("success", response.data.message);
-        props.history.push("/login");
+        setIsAuth(true);
+        props.navigate("/login");
       })
       .catch((err) => {
         // console.log(err);
@@ -34,6 +39,11 @@ const Register = (props) => {
           makeToast("error", err.response.data.message);
       });
   };
+
+  useEffect(() => {
+    console.log(isAuth);
+    if (isAuth) navigate("/login");
+  }, [isAuth, navigate]);
 
   return (
     <div className="card">

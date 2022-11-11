@@ -43,7 +43,7 @@ const Dashboard = (props) => {
       <div className="chatrooms">
         {chatrooms.map((chatroom) => (
           <div key={chatroom._id} className="chatroom">
-            <div>{chatroom.name}</div>
+            <div className="labelroom">{chatroom.name}</div>
             <Link to={"/chatroom/" + chatroom._id}>
               <div className="join">Join</div>
             </Link>

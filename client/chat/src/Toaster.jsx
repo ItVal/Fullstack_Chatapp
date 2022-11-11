@@ -1,4 +1,6 @@
 import Swal from "sweetalert2";
+// import { withRouter } from "react-router-dom";
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -9,6 +11,7 @@ const Toast = Swal.mixin({
   onOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);
+   
   },
 });
 
@@ -19,4 +22,4 @@ const makeToast = (type, msg) => {
   });
 };
 
-export default makeToast;
+export default  makeToast;
