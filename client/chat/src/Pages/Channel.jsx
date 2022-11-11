@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 const Channel = ({ match, socket }) => {
   const chatroomId = match.params.id;
@@ -89,4 +89,4 @@ const Channel = ({ match, socket }) => {
   );
 };
 
-export default withRouter(Channel);
+export default Channel;
