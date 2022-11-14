@@ -1,8 +1,10 @@
 import React from 'react'
-// import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const Channel = ({ match, socket }) => {
-  const chatroomId = match.params.id;
+const Channel = ({socket}) => {
+  const { id } = useParams();
+  const chatroomId = id;
+  
   const [messages, setMessages] = React.useState([]);
   const messageRef = React.useRef();
   const [userId, setUserId] = React.useState("");

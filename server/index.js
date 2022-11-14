@@ -44,7 +44,7 @@ const server = app.listen(PORT, () => {
   console.log(`listening on port :${PORT}`);
 });
 
-//socket 
+//socket server
 const io = require("socket.io")(server, {
   allowEIO3: true,
   cors: {
@@ -72,9 +72,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
   console.log("Disconnected: " + socket.userId);
   });
-
-
-
+  
   socket.on("joinRoom", ({ chatroomId }) => {
     socket.join(chatroomId);
     console.log("A user joined chatroom: " + chatroomId);
