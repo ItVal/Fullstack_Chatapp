@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Channel = ({socket}) => {
   const { id } = useParams();
@@ -41,7 +42,6 @@ const Channel = ({socket}) => {
         chatroomId,
       });
     }
-
     return () => {
       //Component Unmount
       if (socket) {
@@ -53,42 +53,89 @@ const Channel = ({socket}) => {
     //eslint-disable-next-line
   }, []);
 
+   // get user
+   const [listeUsers, setListeUsers] = React.useState([]);
+   const getlisteUsers = () => {
+     axios
+       .get("http://localhost:2080/user/all", {
+         headers: {
+           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+         },
+       })
+       .then((response) => {
+        setListeUsers(response.data);
+        
+         
+       })
+       .catch((err) => {
+         setTimeout(getlisteUsers, 3000);
+       });
+   };
+   
+   React.useEffect(() => {
+     getlisteUsers();
+     // eslint-disable-next-line
+   }, []);
+
   return (
-    <div className="chatroomPage">
-      <div className="chatroomSection">
-        <div className="cardHeader">Chatroom Name</div>
-        <div className="chatroomContent">
-          {messages.map((message, i) => (
-            <div key={i} className="message">
-              <span
-                className={
-                  userId === message.userId ? "ownMessage" : "otherMessage"
-                }
-              >
-                {message.name}:
-              </span>{" "}
-              {message.message}
-            </div>
-          ))}
-        </div>
-        <div className="chatroomActions">
-          <div>
-            <input
-              type="text"
-              name="message"
-              placeholder="Say something!"
-              ref={messageRef}
-            />
-          </div>
-          <div>
-            <button className="join" onClick={sendMessage}>
-              Send
-            </button>
-          </div>
-        </div>
-      </div>
+    
+    <div>
+{/*       
+    //   <h1 className="title">To Solola Ba Ndeko</h1>
+    // <div className="channel">
+    //   <div className="chatroomPage">
+    //    <div className="chatroomSection1">
+    //     <div className="cardHeader">Users</div>
+    //      <div className="chatroomContent">
+    //      {listeUsers.map((Users) => (
+    //       <div key={Users._id} className="chatroom">
+    //         <div className="">{Users.name}
+    //      </div>
+    //     </div>
+    //      ))}
+    //      </div>
+    //     </div>
+    //    </div>
+
+    // <div className="chatroomPage">
+    //   <div className="chatroomSection">
+    //     <div className="cardHeader">Chat</div>
+    //     <div className="chatroomContent">
+    //       {messages.map((message, i) => (
+    //         <div key={i} className="message">
+    //           <span
+    //             className={
+    //               userId === message.userId ? "ownMessage" : "otherMessage"
+    //             }
+    //           >
+    //             {message.name}:
+    //           </span>{" "}
+    //           {message.message}
+    //         </div>
+    //       ))}
+    //     </div>
+    //     <div className="chatroomActions">
+    //       <div>
+    //         <input
+    //           type="text"
+    //           name="message"
+    //           placeholder="Say something!"
+    //           ref={messageRef}
+    //         />
+    //       </div>
+    //       <div>
+    //         <button className="join" onClick={sendMessage}>
+    //           Send
+    //         </button>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+
+    // </div> */}
     </div>
-  );
+  )
+  
 };
 
 export default Channel;

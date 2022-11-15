@@ -3,12 +3,19 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    width: 100vw;
+   
     margin: -8px;
   }
   
   .chatroomSection {
     width: 40vw;
+    height: 80vh;
+    margin: auto;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  .chatroomSection1 {
+    width: 20vw;
     height: 80vh;
     margin: auto;
     border: 1px solid #eee;
@@ -56,3 +63,17 @@
     justify-content: flex-end;
     align-items: flex-end;
   }
+
+  /* main */
+  .channel{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    width: 100%;
+  }
+
+  .title{
+    text-align: center;
+  }
+
