@@ -3,6 +3,9 @@ import makeToast from "../Toaster";
 import axios from "axios";
 // import { withRouter } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import '../Styles/login.css';
+// import img from "../assets/513FFDEWyJL.png"
+
 
 const Login = (props) => {
   const emailRef = React.createRef();
@@ -45,9 +48,12 @@ const Login = (props) => {
     if (isAuth) navigate("/dashboard");
   }, [isAuth, navigate]);
 
+
+
   return (
+    
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-green-500 rounded-md shadow-xl lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
           Sign in
         </h1>
@@ -139,35 +145,8 @@ const Login = (props) => {
         </p>
       </div>
     </div>
+ 
   );
-
-  // <div className="card">
-  //   <div className="cardHeader">Login</div>
-  //   <div className="cardBody">
-  //     <div className="inputGroup">
-  //       <label htmlFor="email">Email</label>
-  //       <input
-  //         type="email"
-  //         name="email"
-  //         id="email"
-  //         placeholder="abc@example.com"
-  //         ref={emailRef}
-  //       />
-  //     </div>
-  //     <div className="inputGroup">
-  //       <label htmlFor="password">Password</label>
-  //       <input
-  //         type="password"
-  //         name="password"
-  //         id="password"
-  //         placeholder="Your Password"
-  //         ref={passwordRef}
-  //       />
-  //     </div>
-  //     <button onClick={loginUser}>Login</button>
-  //   </div>
-  // </div>
-  // );
 };
 
 export default Login;

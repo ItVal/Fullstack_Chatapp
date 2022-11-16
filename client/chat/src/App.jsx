@@ -8,6 +8,7 @@ import Index from './Pages/Index';
 
 import io from "socket.io-client";
 import makeToast from "./Toaster";
+// import Welcome from './Pages/Welcome';
 
 
 
