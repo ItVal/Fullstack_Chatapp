@@ -48,8 +48,6 @@ const Login = (props) => {
     if (isAuth) navigate("/dashboard");
   }, [isAuth, navigate]);
 
-
-
   return (
     
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
@@ -57,10 +55,10 @@ const Login = (props) => {
         <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
           Sign in
         </h1>
-        <form action={loginUser} className="mt-6">
+        <form  className="mt-6">
           <div className="mb-2">
             <label
-              for="email"
+             htmlFor="email"
               className="block text-sm font-semibold text-gray-800"
             >
               Email
@@ -75,7 +73,7 @@ const Login = (props) => {
           </div>
           <div className="mb-2">
             <label
-              for="password"
+              htmlFor="password"
               className="block text-sm font-semibold text-gray-800"
             >
               Password
@@ -139,7 +137,12 @@ const Login = (props) => {
         <p className="mt-8 text-xs font-light text-center text-gray-700">
           {" "}
           Don't have an account?{" "}
-          <a href="#" className="font-medium text-purple-600 hover:underline">
+          <a 
+          
+          href="/register" 
+          className="font-medium text-purple-600 hover:underline"
+          
+          >
             Sign up
           </a>
         </p>
