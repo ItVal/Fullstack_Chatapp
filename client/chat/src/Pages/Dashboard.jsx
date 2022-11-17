@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const Dashboard = (props) => {
   const [chatrooms, setChatrooms] = React.useState([]);
+  
   const getChatrooms = () => {
     axios
       .get("http://localhost:2080/chatroom", {
@@ -44,7 +45,7 @@ const Dashboard = (props) => {
         {chatrooms.map((chatroom) => (
           <div key={chatroom._id} className="chatroom">
             <div className="labelroom">{chatroom.name}</div>
-            <Link to={"/chatroom/" + chatroom._id}>
+            <Link to={"/channel/" + chatroom._id}>
               <div className="join">Join</div>
             </Link>
           </div>
