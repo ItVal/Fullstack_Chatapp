@@ -46,7 +46,7 @@ const Register = (props) => {
   }, [isAuth, navigate]);
 
   return (
-
+    <div className="login">
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-green-500 rounded-md shadow-xl lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
@@ -136,43 +136,10 @@ const Register = (props) => {
         </p>
       </div>
     </div>
+    </div>
  
   );
-    // <div className="card">
-    //   <div className="cardHeader">Registration</div>
-    //   <div className="cardBody">
-    //     <div className="inputGroup">
-    //       <label htmlFor="name">Name</label>
-    //       <input
-    //         type="text"
-    //         name="name"
-    //         id="name"
-    //         placeholder="ValNas"
-    //         ref={nameRef}
-    //       />
-    //     </div>
-    //     <label htmlFor="email">Email</label>
-    //     <input
-    //       type="email"
-    //       name="email"
-    //       id="email"
-    //       placeholder="abc@example.com"
-    //       ref={emailRef}
-    //     />
-    //   </div>
-    //   <div className="inputGroup">
-    //     <label htmlFor="password">Password</label>
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       id="password"
-    //       placeholder="Your Password"
-    //       ref={passwordRef}
-    //     />
-    //   </div>
-    //   <button onClick={registerUser}>Register</button>
-    // </div>
-  //);
+    
 };
 
 
