@@ -23,6 +23,7 @@ const IndexPage = (props) => {
     if (isAuth) navigate("/dashboard");
     navigate("/login");
   }, [isAuth, navigate]);
+  
   return <div></div>;
 };
 

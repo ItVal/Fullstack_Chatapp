@@ -24,12 +24,12 @@ const Login = (props) => {
         password,
       })
       .then((response) => {
-        makeToast("success", response.data.message);
         localStorage.setItem("CC_Token", response.data.token);
         console.log(response.data);
         setIsAuth(true);
         props.setupSocket();
         props.navigate("/dashboard");
+        makeToast("success", response.data.message);
       })
       .catch((err) => {
         // console.log(err);

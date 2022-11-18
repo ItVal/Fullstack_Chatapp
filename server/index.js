@@ -21,7 +21,8 @@ app.use(express.urlencoded({ extended: false }))
 //routes 
 app.use('/user', require("./routes/user"))
 app.use('/chatroom', require("./routes/chatroom"))
-require("./DataBase/Message.model");
+require("./DataBase/Message.model")
+app.use('/msg', require("./routes/messages"))
 
 //Setup Error Handlers
 const errorHandlers = require("./handlers/errorHandlers");
