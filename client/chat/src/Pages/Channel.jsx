@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/login.css";
+import makeToast from "../Toaster";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Channel = ({ socket }) => {
   const { id } = useParams();
@@ -11,6 +16,7 @@ const Channel = ({ socket }) => {
   const [messages, setMessages] = React.useState([]);
   const messageRef = React.useRef();
   const [userId, setUserId] = React.useState("");
+  const navigate = useNavigate();
 
   const sendMessage = () => {
     if (socket) {
@@ -77,8 +83,19 @@ const Channel = ({ socket }) => {
     // eslint-disable-next-line
   }, []);
 
+  //logout
+  const leaveChat = () => {
+    localStorage.removeItem("CC_Token", response.data.token);
+    navigate('/');
+    makeToast("logout success", response.data.message);
+    window.location.reload();
+  };
+
   return (
-    <div className="chat overflow-x-hidden">
+    <div>
+  
+  <h1 className="title block text-sm font-semibold mt-5 text-gray-800">To Solola Ba Ndeko</h1>
+    <div className="chat justify-center mt-10 overflow-x-hidden">
       <div class=" container mx-auto ml-10 mt-10 mb-10 h-screen ">
         <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
           <div class="border-r border-gray-300 lg:col-span-1">
@@ -140,14 +157,19 @@ const Channel = ({ socket }) => {
           </div>
           <div class="hidden lg:col-span-2 lg:block">
             <div class="w-full">
-              <div class="relative flex items-center p-3 border-b border-gray-300">
+              <div class="flex items-center justify-between p-3 border-b border-gray-300">
+                <div class="relative flex items-center p-3 border-b border-gray-300">
                 <img
                   class="object-cover w-10 h-10 rounded-full"
                   src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
                   alt="username"
                 />
-                <span class="block ml-2 font-bold text-gray-600">Emma</span>
+                <span class="block ml-2 font-bold text-gray-600">ValNas</span>
                 <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+                </div>
+                <div class="groite">
+                  <span class="logout" onClick={leaveChat}>Logout</span>
+                </div>
               </div>
               <div class="overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
                 <ul class="space-y-2">
@@ -255,6 +277,7 @@ const Channel = ({ socket }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 

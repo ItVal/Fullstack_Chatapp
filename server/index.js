@@ -68,10 +68,40 @@ io.use(async (socket, next) => {
   } catch (err) {}
 });
 
+//general
+let users = [];
 io.on("connection", (socket) => {
   console.log("Connected: " + socket.userId);
+
+  //add for privite : Listens and logs the message to the console
+  socket.on('message', (data) => {
+    //sends the message to all the users on the server
+    io.emit('messageResponse', data);
+
+  });
+   //is typing something
+   socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
+
+  //Listens when a new user joins the server
+  socket.on('newUser', (data) => {
+    //Adds the new user to the list of users
+    users.push(data);
+    // console.log(users);
+    //Sends the list of users to the client
+    io.emit('newUserResponse', users);
+  });
+
+
+  //---------------
   socket.on("disconnect", () => {
-  console.log("Disconnected: " + socket.userId);
+  console.log("🔥: Disconnected: " + socket.userId);
+
+  //Updates the list of users when a user disconnects from the server
+  users = users.filter((user) => user.socketID !== socket.id);
+  // console.log(users);
+  //Sends the list of users to the client
+  io.emit('newUserResponse', users);
+  socket.disconnect();
   });
   
   socket.on("joinRoom", ({ chatroomId }) => {
@@ -84,6 +114,7 @@ io.on("connection", (socket) => {
     console.log("A user left chatroom: " + chatroomId);
   });
 
+  //chatroom
   socket.on("chatroomMessage", async ({ chatroomId, message }) => {
     if (message.trim().length > 0) {
       const user = await User.findOne({ _id: socket.userId });

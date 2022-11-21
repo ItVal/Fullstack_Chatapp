@@ -1,7 +1,7 @@
 // const Messages = require("../DataBase/PrivMessages.model");
 const Message = require("../DataBase/PrivMessages.model");
 
-exports.postMessage = async (req, res, next)=>{
+exports.envoiMessage = async (req, res, next)=>{
     try{
 
         delete req.body._id;

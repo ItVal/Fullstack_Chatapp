@@ -5,6 +5,8 @@ import Register from './Pages/Register';
 import Dashboard from './Pages/Dashboard';
 import Channel from './Pages/Channel';
 import Index from './Pages/Index';
+import ChatPage from './Pages/ChatPage';
+import './Styles/home.css'
 
 import io from "socket.io-client";
 import makeToast from "./Toaster";
@@ -55,6 +57,7 @@ function App () {
           element={<Dashboard socket={socket} />} exact />
           <Route path="/channel/:id" 
           element={<Channel socket={socket} />} exact />
+          <Route path="/chat" element={<ChatPage socket={socket} />} exact/>
         </Routes> 
       </BrowserRouter>
     </div>

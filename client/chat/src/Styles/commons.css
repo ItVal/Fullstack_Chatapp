@@ -18,9 +18,12 @@ body {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 25vw;
+  width: 50vw;
   transform: translate(-50%, -50%);
   background-color: #3a3538;
+
+  
+
 }
 
 
@@ -87,7 +90,13 @@ button {
 }
 
 .join {
-  background: #f7c52a;
+  background: #10b981;
+  padding: 0.25rem 1rem;
+  border-radius: 2px;
+}
+
+.join1 {
+  background: #10b981;
   padding: 0.25rem 1rem;
   border-radius: 2px;
 }
@@ -98,5 +107,5 @@ a {
 }
 
 .labelroom{
-  color: #fff
+  color: #7e22ce
 }
