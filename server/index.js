@@ -4,25 +4,27 @@ const app = express();
 const PORT = 2080;
 // let socket = require("socket.io");
 const cors = require("cors");
+
 //authorisation accès aux requêtes venant du front
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 app.use((_, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATH,OPTIONS');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,DELETE,PATH,OPTIONS"
+  );
   next();
 });
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-
-
-//routes 
-app.use('/user', require("./routes/user"))
-app.use('/chatroom', require("./routes/chatroom"))
-require("./DataBase/Message.model")
-app.use('/msg', require("./routes/messages"))
+//routes
+app.use("/user", require("./routes/user"));
+app.use("/chatroom", require("./routes/chatroom"));
+require("./DataBase/Message.model");
+app.use("/msg", require("./routes/messages"));
 
 //Setup Error Handlers
 const errorHandlers = require("./handlers/errorHandlers");
@@ -38,9 +40,6 @@ if (process.env.ENV === "DEVELOPMENT") {
 const { connectDB } = require("./DataBase/mongoDB");
 connectDB();
 
-
-
-
 const server = app.listen(PORT, () => {
   console.log(`listening on port :${PORT}`);
 });
@@ -50,13 +49,18 @@ const io = require("socket.io")(server, {
   allowEIO3: true,
   cors: {
     origin: true,
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
+//authentification user
 const jwt = require("jwt-then");
+//chatroom
 const Message = mongoose.model("Message");
+//private chat
+const Msg = mongoose.model("msg");
+//user
 const User = mongoose.model("User");
 
 io.use(async (socket, next) => {
@@ -69,52 +73,35 @@ io.use(async (socket, next) => {
 });
 
 //general
-let users = [];
 io.on("connection", (socket) => {
   console.log("Connected: " + socket.userId);
-
-  //add for privite : Listens and logs the message to the console
-  socket.on('message', (data) => {
-    //sends the message to all the users on the server
-    io.emit('messageResponse', data);
-
-  });
-   //is typing something
-   socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
-
-  //Listens when a new user joins the server
-  socket.on('newUser', (data) => {
-    //Adds the new user to the list of users
-    users.push(data);
-    // console.log(users);
-    //Sends the list of users to the client
-    io.emit('newUserResponse', users);
-  });
-
-
-  //---------------
   socket.on("disconnect", () => {
-  console.log("🔥: Disconnected: " + socket.userId);
-
-  //Updates the list of users when a user disconnects from the server
-  users = users.filter((user) => user.socketID !== socket.id);
-  // console.log(users);
-  //Sends the list of users to the client
-  io.emit('newUserResponse', users);
-  socket.disconnect();
+    console.log("Disconnected: " + socket.userId);
   });
-  
+
+  //join Room
   socket.on("joinRoom", ({ chatroomId }) => {
     socket.join(chatroomId);
     console.log("A user joined chatroom: " + chatroomId);
   });
-
+  //  leave Room
   socket.on("leaveRoom", ({ chatroomId }) => {
     socket.leave(chatroomId);
     console.log("A user left chatroom: " + chatroomId);
   });
 
-  //chatroom
+  //join private chat
+  socket.on("joinChat", ({ UserB }) => {
+    socket.join(UserB);
+    console.log("A user joined private chat: " + UserB);
+  });
+  //  leave private chat
+  socket.on("leaveChat", ({ UserB }) => {
+    socket.leave(UserB);
+    console.log("A user left private chat: " + UserB);
+  });
+
+  //message channel
   socket.on("chatroomMessage", async ({ chatroomId, message }) => {
     if (message.trim().length > 0) {
       const user = await User.findOne({ _id: socket.userId });
@@ -131,19 +118,25 @@ io.on("connection", (socket) => {
       await newMessage.save();
     }
   });
+
+  //message private
+  socket.on("privateMessage", async ({ idReceiver, message }) => {
+    if (message.trim().length > 0) {
+      const idSender = await User.findOne({ _id: socket.userId });
+      // const idReceiver = await User.findOne({ _id: socket.userId });
+      console.log({ socket: socket.userId, idReceiver });
+      const newMessage = new Msg({
+        idSender: socket.userId,
+        idReceiver,
+        message,
+      });
+      io.to(idReceiver).emit("newMessage", {
+        message,
+        name: idSender.name,
+        userId: socket.userId,
+        idReceiver,
+      });
+      await newMessage.save();
+    }
+  });
 });
-
-
-
-// const io = socket(http, {
-//   cors: {
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   },
-// });
-
-// io.on("connection", (socket) => {
-//   /* notification pour un client connecter */
-//   console.log("new client connected");
-//   socket.emit("connection", null); //evenement personnalisé du back vers le font
-// });

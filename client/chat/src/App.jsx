@@ -10,7 +10,7 @@ import './Styles/home.css'
 
 import io from "socket.io-client";
 import makeToast from "./Toaster";
-// import Welcome from './Pages/Welcome';
+// import Main from './Pages/Main';
 
 
 
@@ -49,6 +49,7 @@ function App () {
     <div>
       <BrowserRouter> 
         <Routes> 
+        {/* <Route path="/" element={<Main />} exact /> */}
           <Route path="/" element={<Index />} exact />
           <Route path="/login" 
           element={<Login setupSocket={setupSocket} />} exact />
@@ -57,7 +58,8 @@ function App () {
           element={<Dashboard socket={socket} />} exact />
           <Route path="/channel/:id" 
           element={<Channel socket={socket} />} exact />
-          <Route path="/chat" element={<ChatPage socket={socket} />} exact/>
+          <Route path="/chat/:id" 
+          element={<ChatPage socket={socket} />} exact/>
         </Routes> 
       </BrowserRouter>
     </div>

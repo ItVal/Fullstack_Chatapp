@@ -67,10 +67,10 @@ const Dashboard = (props) => {
       <div className="liste flex  m-5">
       <div className="chatrooms p-5 mr-5 flex-1 w-50 bg-neutral-300 rounded-md shadow-xl lg:max-w-xl overflow-auto h-[18rem] flex-1 w-50">
       <p className="text-center text-sm font-semibold text-emerald-500">Chatroom Name</p>
-        {chatrooms.map((user) => (
-          <div key={user._id} className="chatroom">
-            <div className="labelroom">{user.name}</div>
-            <Link to={"/channel/" + user._id}>
+        {chatrooms.map((chatroom) => (
+          <div key={chatroom._id} className="chatroom">
+            <div className="labelroom">{chatroom.name}</div>
+            <Link to={"/channel/" + chatroom._id}>
               <div className="join">Join</div>
             </Link>
           </div>
@@ -79,10 +79,10 @@ const Dashboard = (props) => {
 
       <div className="chatrooms p-5 bg-neutral-300 rounded-md shadow-xl lg:max-w-xl overflow-auto h-[18rem] flex-1 w-50">
         <p className="text-center text-emerald-500">Private conversation</p>
-        {listeUsers.map((chatroom) => (
-          <div key={chatroom._id} className="chatroom">
-            <div className="labelroom">{chatroom.name}</div>
-            <Link to={"/channel/" + chatroom._id}>
+        {listeUsers.map((user) => (
+          <div key={user._id} className="chatroom">
+            <div className="labelroom">{user.name}</div>
+            <Link to={"/chat/" + user._id}>
               <div className="join1">Go</div>
             </Link>
           </div>

@@ -176,6 +176,7 @@ const Channel = ({ socket }) => {
                   <li class=" w-full ">
                     <div class="relative px-4 py-2 text-gray-700 rounded w-full flex flex-col">
                       {messages.map((message, i) => (
+                        
                         <div
                           key={i}
                           className={
@@ -183,7 +184,9 @@ const Channel = ({ socket }) => {
                               ? " self-end"
                               : "self-start"
                           }
+                          
                         >
+                          {console.log(messages)}
                           <span
                             className={
                               userId === message.userId

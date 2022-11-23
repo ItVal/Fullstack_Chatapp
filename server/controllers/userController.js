@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("../DataBase/User.model")
+const User = require("../DataBase/User.model");
 const sha256 = require("js-sha256");
 const jwt = require("jwt-then");
 
@@ -37,6 +37,7 @@ exports.login = async (req, res) => {
   res.json({
     message: "User logged in successfully!",
     token,
+    userId:user.id,
   });
 };
 

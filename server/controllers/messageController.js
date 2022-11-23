@@ -3,7 +3,7 @@ const Message = require("../DataBase/PrivMessages.model");
 
 exports.envoiMessage = async (req, res, next)=>{
     try{
-
+      console.log(req.body);
         delete req.body._id;
          const msg = await new Message({
             temps : Date.now(),
