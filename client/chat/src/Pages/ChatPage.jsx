@@ -29,17 +29,17 @@ const ChatPage = ({ socket }) => {
   //     });
   // };
 
-  // const sendPMessage = () => {
-  //   console.log(recever, messageRef.current.value);
-  //   if (socket) {
-  //     socket.emit("privateMessage", {
-  //       idReceiver: recever,
-  //       message: messageRef.current.value,
-  //     });
+  const sendPMessage = () => {
+    console.log(recever, messageRef.current.value);
+    if (socket) {
+      socket.emit("privateMessage", {
+        idReceiver: recever,
+        message: messageRef.current.value,
+      });
 
-  //     messageRef.current.value = "";
-  //   }
-  // };
+      messageRef.current.value = "";
+    }
+  };
 
   // React.useEffect(() => {
   //   const token = localStorage.getItem("CC_Token");
