@@ -91,14 +91,14 @@ io.on("connection", (socket) => {
   });
 
   //join private chat
-  socket.on("joinChat", ({ UserB }) => {
-    socket.join(UserB);
-    console.log("A user joined private chat: " + UserB);
+  socket.on("joinChat", ({ idReceiver }) => {
+    socket.join(idReceiver);
+    console.log("A user joined private chat: " + idReceiver);
   });
   //  leave private chat
-  socket.on("leaveChat", ({ UserB }) => {
-    socket.leave(UserB);
-    console.log("A user left private chat: " + UserB);
+  socket.on("leaveChat", ({ idReceiver }) => {
+    socket.leave(idReceiver);
+    console.log("A user left private chat: " + idReceiver);
   });
 
   //message channel
@@ -125,18 +125,21 @@ io.on("connection", (socket) => {
       const idSender = await User.findOne({ _id: socket.userId });
       // const idReceiver = await User.findOne({ _id: socket.userId });
       console.log({ socket: socket.userId, idReceiver });
-      const newMessage = new Msg({
+      const newPMessage = new Msg({
         idSender: socket.userId,
         idReceiver,
         message,
       });
-      io.to(idReceiver).emit("newMessage", {
+
+      socket.join(idReceiver);
+
+      io.to(idReceiver).emit("newPMessage", {
         message,
         name: idSender.name,
         userId: socket.userId,
         idReceiver,
       });
-      await newMessage.save();
+      await newPMessage.save();
     }
   });
 });
