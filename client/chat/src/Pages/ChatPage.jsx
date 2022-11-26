@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import ChatBar from "../components/ChatBar";
-import ChatBody from "../components/ChatBody";
-import ChatFooter from "../components/ChatFooter";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const ChatPage = ({ socket }) => {
+  const [userId, setUserId] = React.useState("");
+
   const { id } = useParams();
   const idReceiver = id;
 
-  const [messages, setMessages] = useState([]);
+  const [privatemessages, setPrivateMessages] = React.useState([]);
   const [recever, setRecever] = useState(undefined);
   const [recevername, setRecevername] = useState(undefined);
   const messageRef = React.useRef();
@@ -29,8 +28,9 @@ const ChatPage = ({ socket }) => {
   //     });
   // };
 
+
   const sendPMessage = () => {
-    console.log(recever, messageRef.current.value);
+    
     if (socket) {
       socket.emit("privateMessage", {
         idReceiver: recever,
@@ -41,37 +41,65 @@ const ChatPage = ({ socket }) => {
     }
   };
 
-  // React.useEffect(() => {
-  //   const token = localStorage.getItem("CC_Token");
-  //   if (token) {
-  //     const payload = JSON.parse(atob(token.split(".")[1]));
-  //     setUserId(payload.id);
-  //   }
-  //   if (socket) {
-  //     socket.on("newMessage", (message) => {
-  //       const newMessages = [...messages, message];
-  //       setMessages(newMessages);
-  //     });
-  //   }
-  //   //eslint-disable-next-line
-  // }, [messages]);
+  useEffect(() => {
+    const token = localStorage.getItem("CC_Token");
+    console.log("je suis dans useeffect")
+    if (token) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      setUserId(payload.id);
+      console.log(payload.id)
+    }
+    if (socket) {
+      socket.on("newPMessage", (message) => {
+        const newPMessage = [...privatemessages, message];
+        setPrivateMessages(newPMessage);
+        console.log('message envoyé');
+      });
+    }
+    console.log(privatemessages);
+    //eslint-disable-next-line
+  } );
 
-  // React.useEffect(() => {
-  //   if (socket) {
-  //     socket.emit("joinRoom", {
-  //       chatroomId,
-  //     });
-  //   }
-  //   return () => {
-  //     //Component Unmount
-  //     if (socket) {
-  //       socket.emit("leaveRoom", {
-  //         chatroomId,
-  //       });
-  //     }
-  //   };
-  //   //eslint-disable-next-line
-  // }, []);
+  console.log(privatemessages);
+  React.useEffect(() => {
+    if (socket) {
+      socket.emit("joinChat", {
+        idReceiver,
+      });
+    }
+    return () => {
+      //Component Unmount
+      if (socket) {
+        socket.emit("leaveChat", {
+          idReceiver,
+        });
+      }
+    };
+    //eslint-disable-next-line
+  }, []);
+
+  //get all messages
+  // get user
+  const [listchat, setListchat] = React.useState([]);
+  const getlisteMessages = () => {
+    axios
+      .get("http://localhost:2080/msg/all", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+        },
+      })
+      .then((response) => {
+        setListchat(response.data);
+      })
+      .catch((err) => {
+        setTimeout(getlisteMessages, 3000);
+      });
+  };
+
+  React.useEffect(() => {
+    getlisteMessages();
+    // eslint-disable-next-line
+  }, []);
 
   // get user
   const [listeUsers, setListeUsers] = React.useState([]);
@@ -197,11 +225,11 @@ const ChatPage = ({ socket }) => {
                     </span>
                   </div>
                 </div>
-                <div class="overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
+                <div class="imgBckg overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
                   <ul class="space-y-2">
                     <li class=" w-full ">
                       <div class="relative px-4 py-2 text-gray-700 rounded w-full flex flex-col">
-                        {/* {messages.map((message, i) => (
+                        {privatemessages.map((message, i) => (
                           <div
                             key={i}
                             className={
@@ -210,7 +238,7 @@ const ChatPage = ({ socket }) => {
                                 : "self-start"
                             }
                           >
-                            {console.log(messages)}
+                          
                             <span
                               className={
                                 userId === message.userId
@@ -222,7 +250,7 @@ const ChatPage = ({ socket }) => {
                             </span>
                             {message.message}
                           </div>
-                        ))} */}
+                        ))}
                       </div>
                     </li>
                   </ul>

@@ -10,7 +10,7 @@ const IndexPage = (props) => {
     console.log(token);
     if (!token) {
       setIsAuth(true);
-      navigate("/login");
+      navigate("/home");
     } else {
       setIsAuth(true);
       navigate("/dashboard");
@@ -21,7 +21,7 @@ const IndexPage = (props) => {
   useEffect(() => {
     console.log(isAuth);
     if (isAuth) navigate("/dashboard");
-    navigate("/login");
+    navigate("/home");
   }, [isAuth, navigate]);
   
   return <div></div>;
