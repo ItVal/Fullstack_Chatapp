@@ -63,6 +63,7 @@ const Msg = mongoose.model("msg");
 //user
 const User = mongoose.model("User");
 
+//socket
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.query.token;
@@ -124,7 +125,6 @@ io.on("connection", (socket) => {
     if (message.trim().length > 0) {
       const idSender = await User.findOne({ _id: socket.userId });
       // const idReceiver = await User.findOne({ _id: socket.userId });
-      console.log({ socket: socket.userId, idReceiver });
       const newPMessage = new Msg({
         idSender: socket.userId,
         idReceiver,

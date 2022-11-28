@@ -17,13 +17,21 @@ exports.envoiMessage = async (req, res, next)=>{
     }
   };
 
-// exports.ReadMessages = (req, res, next) => {
-//     Message.find({$or: [{'idSender':req.params.id},{'idReceiver':req.params.id}]})
-//     .then(msg => res.status(200).json(msg))
-//     .catch(error => res.status(400).json({error}))
-//   };
+  //read private message
+  exports.readMessages = async (req, res, next) => {
+    Message.find({
+      $and: [
+        {
+          $or: [{ idSender: req.params.id }, { idReceiver: req.params.id }],
+        },
+        { $or: [{ idSender: req.body.friend }, { idReceiver: req.body.friend }] },
+      ],
+    })
+      .then((messenger) => res.status(200).json(messenger))
+      .catch((error) => res.status(400).json({ error }));
+  };
 
-// //get all msg
+//get all msg
 exports.getAllMsg = async (req, res) => {
     const sms = await Message.find({});
     res.json(sms);
