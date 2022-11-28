@@ -93,8 +93,6 @@ const Channel = ({ socket }) => {
 
   return (
     <div>
-  
-  <h1 className="title block text-sm font-semibold mt-5 text-gray-800">To Solola Ba Ndeko</h1>
     <div className="chat justify-center mt-10 overflow-x-hidden">
       <div class=" container mx-auto ml-10 mt-10 mb-10 h-screen ">
         <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
@@ -124,7 +122,7 @@ const Channel = ({ socket }) => {
               </div>
             </div>
 
-            <ul class="overflow-auto h-[32rem]">
+            <ul class="overflow-auto h-[32rem] imgBckgside">
               <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               <li>
                 {listeUsers.map((Users) => (
@@ -171,7 +169,7 @@ const Channel = ({ socket }) => {
                   <span class="logout" onClick={leaveChat}>Logout</span>
                 </div>
               </div>
-              <div class="overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
+              <div class="overflow-auto imgBckg imgBckgside h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
                 <ul class="space-y-2">
                   <li class=" w-full ">
                     <div class="relative px-4 py-2 text-gray-700 rounded w-full flex flex-col">
