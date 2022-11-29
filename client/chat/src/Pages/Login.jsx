@@ -6,8 +6,13 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar"
 import "../Styles/login.css";
 import img from "../assets/Chat_Me__1_-removebg-preview.png"
+import {useDispatch,useSelector} from 'react-redux';
+import {setSender} from '../redux/action'
 
 const Login = (props) => {
+  const {receiver} = useSelector((state) => state.userReducer)
+
+  const dispatch = useDispatch();
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
   const navigate = useNavigate();
@@ -26,12 +31,15 @@ const Login = (props) => {
       .then((response) => {
         localStorage.setItem("CC_Token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.userId));
-        console.log(response.data);
+        //redux
+        dispatch(setSender(response.data.userId));
+
         setIsAuth(true);
         props.setupSocket();
         props.navigate("/dashboard");
         makeToast("success", response.data.message);
       })
+      
       .catch((err) => {
         // console.log(err);
         if (

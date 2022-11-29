@@ -179,7 +179,7 @@ const Channel = ({ socket }) => {
                           key={i}
                           className={
                             userId === message.userId
-                              ? " self-end"
+                              ? "self-end"
                               : "self-start"
                           }
                           
