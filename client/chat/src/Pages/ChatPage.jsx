@@ -198,7 +198,6 @@ const ChatPage = ({ socket }) => {
                       </div>
                       <span class="block ml-2 text-sm text-gray-600">bye</span>
                     </div>
-                    {/* <Link to={"/channel/" + Users._id}></Link> */}
                   </a>
                 ))}
               </li>
