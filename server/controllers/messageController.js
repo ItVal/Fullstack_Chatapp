@@ -10,6 +10,7 @@ exports.envoiMessage = async (req, res, next)=>{
               ...req.body
           })
           await msg.save()
+          
           res.status(201).json({message :'Objet enregistre'})
     }
     catch(error){
