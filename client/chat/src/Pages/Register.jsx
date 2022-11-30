@@ -48,8 +48,8 @@ const Register = (props) => {
   return (
     <div className="login">
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-green-500 rounded-md shadow-xl lg:max-w-xl">
-        <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
+      <div className="w-full p-6 m-auto bg-[#3356b2] rounded-md shadow-xl lg:max-w-lg">
+        <h1 className="text-3xl font-semibold text-center text-white uppercase">
           Sign up
         </h1>
         <form  className="mt-6">
@@ -116,19 +116,19 @@ const Register = (props) => {
           <div className="mt-6">
             <button
               onClick={registerUser}
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+              className="w-full px-4 py-2 tracking-wide text-purple-600 font-bold bg-white transition-colors duration-200 transform rounded-md hover:bg-[#40e66a] focus:outline-none focus:bg-purple-600"
             >
               Register
             </button>
           </div>
         </form>
-        <p className="mt-8 text-xs font-light text-center text-gray-700">
+        <p className="mt-8 text-xs font-light text-center text-black">
           {" "}
           Already rester?{" "}
           <a 
           
           href="/login" 
-          className="font-medium text-purple-600 hover:underline"
+          className="font-medium text-white hover:underline"
           
           >
             Sign in

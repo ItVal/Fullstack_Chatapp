@@ -5,9 +5,13 @@ import './index.css'
 import './Styles/commons.css';
 import './Styles/channel.css';
 
-
+import {Store} from './redux/store.js'
+import {Provider} from 'react-redux'
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  
+  <Provider store={Store}>
     <App />
-  </React.StrictMode>
+  </Provider>
+  // <React.StrictMode>
+  //  </React.StrictMode>
 )

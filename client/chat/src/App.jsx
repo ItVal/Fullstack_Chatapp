@@ -1,18 +1,20 @@
-import React from 'react'
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login";
-import Register from './Pages/Register';
-import Dashboard from './Pages/Dashboard';
-import Channel from './Pages/Channel';
-import Index from './Pages/Index';
+import Register from "./Pages/Register";
+import Dashboard from "./Pages/Dashboard";
+import Channel from "./Pages/Channel";
+import Index from "./Pages/Index";
+import ChatPage from "./Pages/ChatPage";
+import Home from "./Pages/Home";
+
+import "./Styles/home.css";
 
 import io from "socket.io-client";
 import makeToast from "./Toaster";
-// import Welcome from './Pages/Welcome';
+// import Main from './Pages/Main';
 
-
-
-function App () {
+function App() {
   const [socket, setSocket] = React.useState(null);
 
   const setupSocket = () => {
@@ -32,9 +34,10 @@ function App () {
 
       newSocket.on("connect", () => {
         makeToast("success", "Socket Connected!");
+        console.log('je suis connecté');
       });
-
       setSocket(newSocket);
+
     }
   };
 
@@ -45,20 +48,40 @@ function App () {
 
   return (
     <div>
-      <BrowserRouter> 
-        <Routes> 
+      <BrowserRouter>
+        <Routes>
+          
           <Route path="/" element={<Index />} exact />
-          <Route path="/login" 
-          element={<Login setupSocket={setupSocket} />} exact />
+          <Route
+            path="/home"
+            element={<Home />}
+            exact
+          />
+          <Route
+            path="/login"
+            element={<Login setupSocket={setupSocket} />}
+            exact
+          />
           <Route path="/register" element={<Register />} exact />
-          <Route path="/dashboard" 
-          element={<Dashboard socket={socket} />} exact />
-          <Route path="/channel/:id" 
-          element={<Channel socket={socket} />} exact />
-        </Routes> 
+          <Route
+            path="/dashboard"
+            element={<Dashboard socket={socket} />}
+            exact
+          />
+          <Route
+            path="/chat/:id"
+            element={<ChatPage socket={socket} />}
+            exact
+          />
+          <Route
+            path="/channel/:id"
+            element={<Channel socket={socket} />}
+            exact
+          />
+        </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
 export default App;

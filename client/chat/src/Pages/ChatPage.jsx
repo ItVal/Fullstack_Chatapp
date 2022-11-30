@@ -1,27 +1,35 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import "../Styles/login.css";
-import makeToast from "../Toaster";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-
-
-
-const Channel = ({ socket }) => {
-  const { id } = useParams();
-  const chatroomId = id;
-
-  const [messages, setMessages] = React.useState([]);
-  const messageRef = React.useRef();
+const ChatPage = ({ socket }) => {
   const [userId, setUserId] = React.useState("");
-  const navigate = useNavigate();
 
-  const sendMessage = () => {
+  const { id } = useParams();
+  const idReceiver = id;
+
+  const [privatemessages, setPrivateMessages] = React.useState([]);
+  const [recever, setRecever] = useState(undefined);
+  const [recevername, setRecevername] = useState(undefined);
+  const messageRef = React.useRef();
+  const [contact, setContact] = useState("");
+  // const [myprivateMsg, setMyprivateMsg] = useState([]);
+
+  const lastMessageRef = useRef(null);
+
+  // filterPrivateMessage whitout socket
+  async function filterPrivateMessage(friend) {
+    const req = await axios.post("http://localhost:2080/msg/" + id, {
+      friend: friend,
+    });
+    setContact(friend);
+    setPrivateMessages(req.data);
+  }
+
+  const sendPMessage = () => {
     if (socket) {
-      socket.emit("chatroomMessage", {
-        chatroomId,
+      socket.emit("privateMessage", {
+        idReceiver: recever,
         message: messageRef.current.value,
       });
 
@@ -29,36 +37,70 @@ const Channel = ({ socket }) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    socket.on("newMessageSent", ({ idReceiver }) => {
+      if (idReceiver == recever) filterPrivateMessage(idReceiver);
+    });
+  }, [socket]);
+
+  useEffect(() => {
     const token = localStorage.getItem("CC_Token");
+    console.log("je suis dans useeffect");
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
+      console.log(payload.id);
     }
     if (socket) {
-      socket.on("newMessage", (message) => {
-        const newMessages = [...messages, message];
-        setMessages(newMessages);
+      socket.on("newPMessage", (message) => {
+        const newPMessage = [...privatemessages, message];
+        setPrivateMessages(newPMessage);
+        console.log("message envoyé");
       });
     }
+    console.log(privatemessages);
     //eslint-disable-next-line
-  }, [messages]);
+  });
 
+  console.log(privatemessages);
   React.useEffect(() => {
     if (socket) {
-      socket.emit("joinRoom", {
-        chatroomId,
+      socket.emit("joinChat", {
+        idReceiver,
       });
     }
     return () => {
       //Component Unmount
       if (socket) {
-        socket.emit("leaveRoom", {
-          chatroomId,
+        socket.emit("leaveChat", {
+          idReceiver,
         });
       }
     };
     //eslint-disable-next-line
+  }, []);
+
+  //get all messages
+  // get user
+  const [listchat, setListchat] = React.useState([]);
+  const getlisteMessages = () => {
+    axios
+      .get("http://localhost:2080/msg/all", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+        },
+      })
+      .then((response) => {
+        setListchat(response.data);
+      })
+      .catch((err) => {
+        setTimeout(getlisteMessages, 3000);
+      });
+  };
+
+  React.useEffect(() => {
+    getlisteMessages();
+    // eslint-disable-next-line
   }, []);
 
   // get user
@@ -82,17 +124,19 @@ const Channel = ({ socket }) => {
     getlisteUsers();
     // eslint-disable-next-line
   }, []);
-
   //logout
   const leaveChat = () => {
     localStorage.removeItem("CC_Token", response.data.token);
-    navigate('/');
+    navigate("/");
     makeToast("logout success", response.data.message);
     window.location.reload();
   };
-
+  const changeChat = (id, name) => {
+    setRecever(id);
+    setRecevername(name);
+  };
+  console.log(recever);
   return (
-    <div>
     <div className="chat justify-center mt-10 overflow-x-hidden">
       <div class=" container mx-auto ml-10 mt-10 mb-10 h-screen ">
         <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
@@ -126,7 +170,14 @@ const Channel = ({ socket }) => {
               <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               <li>
                 {listeUsers.map((Users) => (
-                  <a class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                  <a
+                    key={Users._id}
+                    onClick={() => {
+                      filterPrivateMessage(Users._id);
+                      changeChat(Users._id, Users.name);
+                    }}
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+                  >
                     <img
                       class="object-cover w-10 h-10 rounded-full"
                       src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
@@ -136,7 +187,7 @@ const Channel = ({ socket }) => {
                     <div class="w-full pb-2">
                       <div class="flex justify-between">
                         <span class="block ml-2 font-semibold text-gray-600">
-                          <div key={Users._id} className="chatroom">
+                          <div className="chatroom">
                             <div className="">{Users.name}</div>
                           </div>
                         </span>
@@ -147,7 +198,7 @@ const Channel = ({ socket }) => {
                       </div>
                       <span class="block ml-2 text-sm text-gray-600">bye</span>
                     </div>
-                    <Link to={"/channel/" + Users._id}></Link>
+                    {/* <Link to={"/channel/" + Users._id}></Link> */}
                   </a>
                 ))}
               </li>
@@ -157,37 +208,39 @@ const Channel = ({ socket }) => {
             <div class="w-full">
               <div class="flex items-center justify-between p-3 border-b border-gray-300">
                 <div class="relative flex items-center p-3 border-b border-gray-300">
-                <img
-                  class="object-cover w-10 h-10 rounded-full"
-                  src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-                  alt="username"
-                />
-                <span class="block ml-2 font-bold text-gray-600">ValNas</span>
-                <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+                  <img
+                    class="object-cover w-10 h-10 rounded-full"
+                    src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
+                    alt="username"
+                  />
+                  <span class="block ml-2 font-bold text-gray-600">
+                    {recevername}
+                  </span>
+                  <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
                 </div>
                 <div class="groite">
-                  <span class="logout" onClick={leaveChat}>Logout</span>
+                  <span class="logout" onClick={leaveChat}>
+                    Logout
+                  </span>
                 </div>
               </div>
-              <div class="overflow-auto imgBckg imgBckgside h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
+              <div class="imgBckg imgBckgside overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
+                To Solola Ba Ndeko
                 <ul class="space-y-2">
                   <li class=" w-full ">
                     <div class="relative px-4 py-2 text-gray-700 rounded w-full flex flex-col">
-                      {messages.map((message, i) => (
-                        
+                      {privatemessages.map((message, i) => (
                         <div
                           key={i}
                           className={
-                            userId === message.userId
-                              ? "self-end"
-                              : "self-start"
+                            userId === message.idSender
+                              ? "ownMessage self-end"
+                              : "otherMessage self-start"
                           }
-                          
                         >
-                          {console.log(messages)}
                           <span
                             className={
-                              userId === message.userId
+                              userId === message.idReceiver
                                 ? "ownMessage self-start"
                                 : "otherMessage self-end"
                             }
@@ -202,7 +255,7 @@ const Channel = ({ socket }) => {
                 </ul>
               </div>
 
-              <div class="flex items-center justify-between w-full p-3 border-t border-gray-300">
+              <div class="flex items-center justify-between w-full p-3 border-t border-gray-600">
                 <button class=" bg-white w-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -262,7 +315,7 @@ const Channel = ({ socket }) => {
                 <button
                   class=" bg-white w-10"
                   type="submit"
-                  onClick={sendMessage}
+                  onClick={sendPMessage}
                 >
                   <svg
                     class="w-5 h-5 text-gray-500 origin-center transform rotate-90"
@@ -279,65 +332,7 @@ const Channel = ({ socket }) => {
         </div>
       </div>
     </div>
-    </div>
   );
-
-  //     <div>
-  // {/*
-  //     //   <h1 className="title">To Solola Ba Ndeko</h1>
-  //     // <div className="channel">
-  //     //   <div className="chatroomPage">
-  //     //    <div className="chatroomSection1">
-  //     //     <div className="cardHeader">Users</div>
-  //     //      <div className="chatroomContent">
-  //     //      {listeUsers.map((Users) => (
-  //     //       <div key={Users._id} className="chatroom">
-  //     //         <div className="">{Users.name}
-  //     //      </div>
-  //     //     </div>
-  //     //      ))}
-  //     //      </div>
-  //     //     </div>
-  //     //    </div>
-
-  //     // <div className="chatroomPage">
-  //     //   <div className="chatroomSection">
-  //     //     <div className="cardHeader">Chat</div>
-  //     //     <div className="chatroomContent">
-  //     //       {messages.map((message, i) => (
-  //     //         <div key={i} className="message">
-  //     //           <span
-  //     //             className={
-  //     //               userId === message.userId ? "ownMessage" : "otherMessage"
-  //     //             }
-  //     //           >
-  //     //             {message.name}:
-  //     //           </span>{" "}
-  //     //           {message.message}
-  //     //         </div>
-  //     //       ))}
-  //     //     </div>
-  //     //     <div className="chatroomActions">
-  //     //       <div>
-  //     //         <input
-  //     //           type="text"
-  //     //           name="message"
-  //     //           placeholder="Say something!"
-  //     //           ref={messageRef}
-  //     //         />
-  //     //       </div>
-  //     //       <div>
-  //     //         <button className="join" onClick={sendMessage}>
-  //     //           Send
-  //     //         </button>
-  //     //       </div>
-  //     //     </div>
-  //     //   </div>
-  //     // </div>
-
-  //     // </div> */}
-  //     </div>
-  //   )
 };
 
-export default Channel;
+export default ChatPage;

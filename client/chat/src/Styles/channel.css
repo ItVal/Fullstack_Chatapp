@@ -77,3 +77,19 @@
     text-align: center;
   }
 
+  .imgBckg{
+    background: url(../assets/42ec0a00-2b1e-11ea-88e7-135b5b7fa50c.png) center;
+        /* position:absolute; */
+        width: 100%;
+        height: 100;
+        top:0;
+        left: 0;
+        /* z-index: ; */
+        /* position: absolute; */
+  }
+
+  .imgBckgside{
+   background-color:   #c2c5c7;
+  }
+
+

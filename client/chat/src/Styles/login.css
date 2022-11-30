@@ -11,7 +11,7 @@
     }
 
 .chat{
-    background: url(../assets/41EpGHYVvkL.png) center;
+    background: url(../assets/513FFDEWyJL.png) center;
     position:absolute;
     width: 100%;
     height: 100;
@@ -19,6 +19,21 @@
     left: 0;
     /* z-index: -1; */
     position: absolute;
+}
+
+.Mylogo{
+    object-fit: cover;
+    height: 100px;
+    width: 170px;
+    padding: 0;
+    margin: 0;
+}
+.Mylogo1{
+    object-fit: cover;
+    height: 150px;
+    width: 250px;
+    padding: 0;
+    margin: 0;
 }
 
    
