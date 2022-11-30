@@ -132,6 +132,7 @@ io.on("connection", (socket) => {
       });
 
       socket.join(idReceiver);
+      socket.emit('newMessageSent', { idReceiver})
 
       io.to(idReceiver).emit("newPMessage", {
         message,
