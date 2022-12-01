@@ -182,7 +182,7 @@ const ChatPage = ({ socket }) => {
                   >
                     <img
                       class="object-cover w-10 h-10 rounded-full"
-                      src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
+                      src="https://api.lorem.space/image/face?w=150&h=150"
                       alt="username"
                     />
 
@@ -211,7 +211,7 @@ const ChatPage = ({ socket }) => {
                 <div class="relative flex items-center p-3 border-b border-gray-300">
                   <img
                     class="object-cover w-10 h-10 rounded-full"
-                    src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
+                    src="https://api.lorem.space/image/face?w=150&h=150"
                     alt="username"
                   />
                   <span class="block ml-2 font-bold text-gray-600">
