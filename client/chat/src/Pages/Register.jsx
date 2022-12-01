@@ -19,7 +19,7 @@ const Register = (props) => {
     const password = passwordRef.current.value;
 
     axios
-      .post("http://localhost:2080/user/register", {
+      .post(process.env.ROUTEREGISTER, {
         name,
         email,
         password,
