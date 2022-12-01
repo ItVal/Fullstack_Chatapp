@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ChatPage = ({ socket }) => {
   const [userId, setUserId] = React.useState("");
@@ -128,7 +129,8 @@ const ChatPage = ({ socket }) => {
   const leaveChat = () => {
     localStorage.removeItem("CC_Token", response.data.token);
     navigate("/");
-    makeToast("logout success", response.data.message);
+    // makeToast("logout success", response.data.message);
+    toast.success("logout success", response.data.message)
     window.location.reload();
   };
   const changeChat = (id, name) => {
