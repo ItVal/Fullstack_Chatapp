@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ChatPage = ({ socket }) => {
   const [userId, setUserId] = React.useState("");
@@ -40,7 +41,7 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("newMessageSent", ({ idReceiver }) => {
-      if (idReceiver == recever) filterPrivateMessage(idReceiver);
+      if (idReceiver.toString() == recever.toString()) filterPrivateMessage(idReceiver);
     });
   }, [socket]);
 
@@ -129,7 +130,8 @@ const ChatPage = ({ socket }) => {
   const leaveChat = () => {
     localStorage.removeItem("CC_Token", response.data.token);
     navigate("/");
-    makeToast("logout success", response.data.message);
+    // makeToast("logout success", response.data.message);
+    toast.success(response.data.message)
     window.location.reload();
   };
   const changeChat = (id, name) => {

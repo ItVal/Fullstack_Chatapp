@@ -16,6 +16,7 @@ const Login = (props) => {
   const passwordRef = React.createRef();
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
+  const [connectedUserId, setConnectedUserId] = useState("")
 
   const loginUser = (e) => {
     e.preventDefault();
@@ -32,10 +33,11 @@ const Login = (props) => {
         localStorage.setItem("user", JSON.stringify(response.data.userId));
         //redux
         dispatch(setSender(response.data.userId));
+        setConnectedUserId(response.data.userId);
 
         setIsAuth(true);
         props.setupSocket();
-        props.navigate("/dashboard");
+        props.navigate(`/chat/${connectedUserId}`)
         toast.success(response.data.message);
       })
 
@@ -53,7 +55,8 @@ const Login = (props) => {
 
   useEffect(() => {
     // console.log(isAuth);
-    if (isAuth) navigate("/dashboard");
+    console.log(connectedUserId);
+    if (isAuth) navigate(`/chat/${connectedUserId}`)
   }, [isAuth, navigate]);
 
   return (

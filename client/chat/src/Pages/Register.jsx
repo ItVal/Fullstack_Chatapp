@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import makeToast from "../Toaster";
+import { toast } from 'react-toastify';
+// import makeToast from "../Toaster";
 
 const Register = (props) => {
   const nameRef = React.createRef();
@@ -24,7 +25,8 @@ const Register = (props) => {
         password,
       })
       .then((response) => {
-        makeToast("success", response.data.message);
+        // makeToast("success", response.data.message);
+        toast.success(response.data.message)
         setIsAuth(true);
         props.navigate("/login");
       })
@@ -36,7 +38,8 @@ const Register = (props) => {
           err.response.data &&
           err.response.data.message
         )
-          makeToast("error", err.response.data.message);
+          // makeToast("error", err.response.data.message);
+          toast.error(err.response.data.message)
       });
   };
 
