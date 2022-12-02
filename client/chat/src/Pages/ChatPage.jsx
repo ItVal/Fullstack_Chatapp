@@ -20,7 +20,7 @@ const ChatPage = ({ socket }) => {
 
   // filterPrivateMessage whitout socket
   async function filterPrivateMessage(friend) {
-    const req = await axios.post(process.env.ROUTEONEMESSAGE + id, {
+    const req = await axios.post(import.meta.env.VITE_ROUTEONEMESSAGE + id, {
       friend: friend,
     });
     setContact(friend);
@@ -86,7 +86,7 @@ const ChatPage = ({ socket }) => {
   const [listchat, setListchat] = React.useState([]);
   const getlisteMessages = () => {
     axios
-      .get(process.env.ROUTEALLMESSAGES, {
+      .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -108,7 +108,7 @@ const ChatPage = ({ socket }) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(process.env.ROUTEALLUSERS, {
+      .get(import.meta.env.VITE_ROUTEALLUSERS, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },

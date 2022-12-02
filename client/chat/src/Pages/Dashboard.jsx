@@ -8,7 +8,7 @@ const Dashboard = (props) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getChatrooms = () => {
     axios
-      .get(process.env.ROUTEALLCHATROOM, {
+      .get(import.meta.env.VITE_ROUTEALLCHATROOM, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -29,7 +29,7 @@ const Dashboard = (props) => {
   //get all users
   const getlisteUsers = () => {
     axios
-      .get(process.env.ROUTEALLUSERS, {
+      .get(import.meta.env.VITE_ROUTEALLUSERS, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
