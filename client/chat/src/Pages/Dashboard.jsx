@@ -8,7 +8,7 @@ const Dashboard = (props) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getChatrooms = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLCHATROOM, {
+      .get("http://localhost:2080/chatroom", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -29,7 +29,7 @@ const Dashboard = (props) => {
   //get all users
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -40,6 +40,7 @@ const Dashboard = (props) => {
       .catch((err) => {
         setTimeout(getlisteUsers, 3000);
       });
+      // console.log(import.meta.env.VITE_ROUTEALLUSERS)
   };
 
   React.useEffect(() => {

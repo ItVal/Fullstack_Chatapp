@@ -20,13 +20,14 @@ const ChatPage = ({ socket }) => {
 
   // filterPrivateMessage whitout socket
   async function filterPrivateMessage(friend) {
-    const req = await axios.post(import.meta.env.VITE_ROUTEONEMESSAGE + id, {
+    const req = await axios.post("http://localhost:2080/msg/" + id, {
       friend: friend,
     });
     setContact(friend);
     setPrivateMessages(req.data);
   }
-
+  // console.log(import.meta.env.VITE_ROUTEONEMESSAGE)
+ 
   const sendPMessage = () => {
     if (socket) {
       socket.emit("privateMessage", {
@@ -81,12 +82,12 @@ const ChatPage = ({ socket }) => {
     //eslint-disable-next-line
   }, []);
 
-  //get all messages
-  // get user
+  // //get all messages
+  // // get user
   const [listchat, setListchat] = React.useState([]);
   const getlisteMessages = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
+      .get("http://localhost:2080/msg/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -108,7 +109,7 @@ const ChatPage = ({ socket }) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },

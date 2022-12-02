@@ -23,7 +23,7 @@ const Login = (props) => {
     const password = passwordRef.current.value;
 
     axios
-      .post(import.meta.env.VITE_ROUTELOGIN, {
+      .post("http://localhost:2080/user/login", {
         email,
         password,
       })

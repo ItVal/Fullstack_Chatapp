@@ -66,7 +66,7 @@ const Channel = ({ socket }) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },

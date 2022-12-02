@@ -19,7 +19,7 @@ const Register = (props) => {
     const password = passwordRef.current.value;
 
     axios
-      .post(import.meta.env.VITE_ROUTEREGISTER, {
+      .post("http://localhost:2080/user/register", {
         name,
         email,
         password,
