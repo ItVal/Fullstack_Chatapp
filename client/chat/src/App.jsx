@@ -11,8 +11,8 @@ import Home from "./Pages/Home";
 import "./Styles/home.css";
 
 import io from "socket.io-client";
-import { toast } from "react-toastify";
-
+import makeToast from "./Toaster";
+// import Main from './Pages/Main';
 
 function App() {
   const [socket, setSocket] = React.useState(null);
@@ -30,13 +30,11 @@ function App() {
       newSocket.on("disconnect", () => {
         setSocket(null);
         setTimeout(setupSocket, 3000);
-        // makeToast("error", "Socket Disconnected!");
-        toast.error("Socket Disconnected!")
+        makeToast("error", "Socket Disconnected!");
       });
 
       newSocket.on("connect", () => {
-        // makeToast("success", "Socket Connected!");
-        toast.success("Socket Connected!")
+        makeToast("success", "Socket Connected!");
         console.log('je suis connecté');
       });
       setSocket(newSocket);

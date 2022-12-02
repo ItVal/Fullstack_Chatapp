@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/login.css";
-// import makeToast from "../Toaster";
-import { toast } from "react-toastify";
+import makeToast from "../Toaster";
 import { useNavigate } from "react-router-dom";
 
 
@@ -88,8 +87,7 @@ const Channel = ({ socket }) => {
   const leaveChat = () => {
     localStorage.removeItem("CC_Token", response.data.token);
     navigate('/');
-    // makeToast("logout success", response.data.message);
-    toast.success("logout success", response.data.message)
+    makeToast("logout success", response.data.message);
     window.location.reload();
   };
 
