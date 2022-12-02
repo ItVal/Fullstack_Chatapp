@@ -20,13 +20,14 @@ const ChatPage = ({ socket }) => {
 
   // filterPrivateMessage whitout socket
   async function filterPrivateMessage(friend) {
-    const req = await axios.post(import.meta.env.VITE_ROUTEONEMESSAGE + id, {
+    const req = await axios.post("http://localhost:2080/msg/" + id, {
       friend: friend,
     });
     setContact(friend);
     setPrivateMessages(req.data);
   }
-
+  // console.log(import.meta.env.VITE_ROUTEONEMESSAGE)
+ 
   const sendPMessage = () => {
     if (socket) {
       socket.emit("privateMessage", {
@@ -40,7 +41,7 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("newMessageSent", ({ idReceiver }) => {
-      if (idReceiver == recever) filterPrivateMessage(idReceiver);
+      if (idReceiver.toString() == recever.toString()) filterPrivateMessage(idReceiver);
     });
   }, [socket]);
 
@@ -81,12 +82,12 @@ const ChatPage = ({ socket }) => {
     //eslint-disable-next-line
   }, []);
 
-  //get all messages
-  // get user
+  // //get all messages
+  // // get user
   const [listchat, setListchat] = React.useState([]);
   const getlisteMessages = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
+      .get("http://localhost:2080/msg/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -108,7 +109,7 @@ const ChatPage = ({ socket }) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -130,7 +131,7 @@ const ChatPage = ({ socket }) => {
     localStorage.removeItem("CC_Token", response.data.token);
     navigate("/");
     // makeToast("logout success", response.data.message);
-    toast.success("logout success", response.data.message)
+    toast.success(response.data.message)
     window.location.reload();
   };
   const changeChat = (id, name) => {
@@ -182,7 +183,7 @@ const ChatPage = ({ socket }) => {
                   >
                     <img
                       class="object-cover w-10 h-10 rounded-full"
-                      src="https://api.lorem.space/image/face?w=150&h=150"
+                      src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
                       alt="username"
                     />
 
@@ -211,7 +212,7 @@ const ChatPage = ({ socket }) => {
                 <div class="relative flex items-center p-3 border-b border-gray-300">
                   <img
                     class="object-cover w-10 h-10 rounded-full"
-                    src="https://api.lorem.space/image/face?w=150&h=150"
+                    src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
                     alt="username"
                   />
                   <span class="block ml-2 font-bold text-gray-600">

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/login.css";
 // import makeToast from "../Toaster";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -66,7 +66,7 @@ const Channel = ({ socket }) => {
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -89,7 +89,7 @@ const Channel = ({ socket }) => {
     localStorage.removeItem("CC_Token", response.data.token);
     navigate('/');
     // makeToast("logout success", response.data.message);
-    toast.success("logout success", response.data.message)
+    toast.success(response.data.message)
     window.location.reload();
   };
 

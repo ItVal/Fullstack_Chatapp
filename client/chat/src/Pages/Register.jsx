@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 // import makeToast from "../Toaster";
 
 const Register = (props) => {
@@ -19,14 +19,14 @@ const Register = (props) => {
     const password = passwordRef.current.value;
 
     axios
-      .post(import.meta.env.VITE_ROUTEREGISTER, {
+      .post("http://localhost:2080/user/register", {
         name,
         email,
         password,
       })
       .then((response) => {
-        toast.success(response.data.message)
         // makeToast("success", response.data.message);
+        toast.success(response.data.message)
         setIsAuth(true);
         props.navigate("/login");
       })

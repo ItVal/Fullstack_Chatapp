@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 const Dashboard = (props) => {
   const [chatrooms, setChatrooms] = React.useState([]);
   const [listeUsers, setListeUsers] = React.useState([]);
+  const [connectedId, setConnectedId] = React.useState("");
   const getChatrooms = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLCHATROOM, {
+      .get("http://localhost:2080/chatroom", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -23,13 +24,14 @@ const Dashboard = (props) => {
 
   React.useEffect(() => {
     getChatrooms();
+    setConnectedId(JSON.parse(localStorage.getItem("user")) ?? null);
     // eslint-disable-next-line
   }, []);
 
   //get all users
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get("http://localhost:2080/user/all", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -40,6 +42,7 @@ const Dashboard = (props) => {
       .catch((err) => {
         setTimeout(getlisteUsers, 3000);
       });
+    // console.log(import.meta.env.VITE_ROUTEALLUSERS)
   };
 
   React.useEffect(() => {
@@ -86,7 +89,7 @@ const Dashboard = (props) => {
           {listeUsers.map((user) => (
             <div key={user._id} className="chatroom">
               <div className="labelroom">{user.name}</div>
-              <Link to={"/chat/" + user._id}>
+              <Link to={"/chat/" + connectedId}>
                 <div className="join1">Go</div>
               </Link>
             </div>

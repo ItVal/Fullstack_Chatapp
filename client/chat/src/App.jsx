@@ -12,7 +12,8 @@ import "./Styles/home.css";
 
 import io from "socket.io-client";
 import { toast } from "react-toastify";
-
+// import makeToast from "./Toaster";
+// import Main from './Pages/Main';
 
 function App() {
   const [socket, setSocket] = React.useState(null);
@@ -20,11 +21,12 @@ function App() {
   const setupSocket = () => {
     const token = localStorage.getItem("CC_Token");
     if (token && !socket) {
-      const newSocket = io(import.meta.env.VITE_ROUTELOGIN, {
+      const newSocket = io("http://localhost:2080", {
         query: {
           token: localStorage.getItem("CC_Token"),
         },
       });
+
 
       newSocket.on("disconnect", () => {
         setSocket(null);
