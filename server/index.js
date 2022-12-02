@@ -124,7 +124,6 @@ io.on("connection", (socket) => {
   socket.on("privateMessage", async ({ idReceiver, message }) => {
     if (message.trim().length > 0) {
       const idSender = await User.findOne({ _id: socket.userId });
-      // const idReceiver = await User.findOne({ _id: socket.userId });
       const newPMessage = new Msg({
         idSender: socket.userId,
         idReceiver,
