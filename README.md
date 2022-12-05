@@ -2,7 +2,7 @@
 #### This is a full stack Chat app using node js and react js 
 
 #### 📷 Screenshot:
-![React chat](https://i.imgur.com/P9PTZXl.png)
+![React chat](https://raw.githubusercontent.com/aayushjha5/reactchatapp/master/preview.gif)
 
 #### 🛠 Tools:
 - Socket.io
