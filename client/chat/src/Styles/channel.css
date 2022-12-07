@@ -53,15 +53,17 @@
   }
   
   .otherMessage {
-    color: #0099cc;
     font-weight: bold;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-top-right-radius: 25px;
   }
   
   .ownMessage {
-    color: #00cc00;
     font-weight: bold;
     justify-content: flex-end;
     align-items: flex-end;
+    border-bottom-right-radius: 25px;
   }
 
   /* main */

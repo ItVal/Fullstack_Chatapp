@@ -21,7 +21,7 @@ function App() {
   const setupSocket = () => {
     const token = localStorage.getItem("CC_Token");
     if (token && !socket) {
-      const newSocket = io("http://localhost:2080", {
+      const newSocket = io(import.meta.env.VITE_ROUTESERVER, {
         query: {
           token: localStorage.getItem("CC_Token"),
         },
