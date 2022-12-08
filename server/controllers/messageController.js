@@ -28,6 +28,7 @@ exports.envoiMessage = async (req, res, next)=>{
         { $or: [{ idSender: req.body.friend }, { idReceiver: req.body.friend }] },
       ],
     })
+      // .populate(["idSender", "idReceiver"])
       .then((messenger) => res.status(200).json(messenger))
       .catch((error) => res.status(400).json({ error }));
   };
@@ -37,3 +38,5 @@ exports.getAllMsg = async (req, res) => {
     const sms = await Message.find({});
     res.json(sms);
   };
+
+  

@@ -37,12 +37,18 @@ exports.login = async (req, res) => {
   res.json({
     message: "User logged in successfully!",
     token,
-    userId:user.id,
+    userId: user.id,
   });
 };
 
 //ger all users
 exports.getAllUsers = async (req, res) => {
   const users = await User.find({});
+  res.json(users);
+};
+
+//all users without user connect
+exports.getAllUsersMone = async (req, res) => {
+  const users = await User.find({ _id: { $ne: req.params.id } }).select("name");
   res.json(users);
 };
