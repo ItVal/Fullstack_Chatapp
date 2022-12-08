@@ -86,32 +86,32 @@ const ChatPage = ({ socket, props }) => {
 
   // //get all messages
   // // get user
-  const [listchat, setListchat] = React.useState([]);
-  const getlisteMessages = () => {
-    axios
-      .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("CC_Token"),
-        },
-      })
-      .then((response) => {
-        setListchat(response.data);
-      })
-      .catch((err) => {
-        setTimeout(getlisteMessages, 3000);
-      });
-  };
+  // const [listchat, setListchat] = React.useState([]);
+  // const getlisteMessages = () => {
+  //   axios
+  //     .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
+  //       headers: {
+  //         Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setListchat(response.data);
+  //     })
+  //     .catch((err) => {
+  //       setTimeout(getlisteMessages, 3000);
+  //     });
+  // };
 
-  React.useEffect(() => {
-    getlisteMessages();
-    // eslint-disable-next-line
-  }, []);
+  // React.useEffect(() => {
+  //   getlisteMessages();
+  //   // eslint-disable-next-line
+  // }, []);
 
   // get user
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get(import.meta.env.VITE_ROUTEALLUSERS, {
+      .get(import.meta.env.VITE_ROUTEALLUSERSMOINSUN + id, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -183,7 +183,7 @@ const ChatPage = ({ socket, props }) => {
                       filterPrivateMessage(Users._id);
                       changeChat(Users._id, Users.name);
                     }}
-                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-[#d0e8c4] focus:outline-none"
                   >
                     <img
                       class="object-cover w-10 h-10 rounded-full"
@@ -240,11 +240,11 @@ const ChatPage = ({ socket, props }) => {
                       {privatemessages.map((message, i) => (
                         <div
                           key={i}
-                          className={`rounded p-2  text-white my-1 
+                          className={`rounded p-2   my-1 
                             ${
                               userId != message.idReceiver
                                 ? "ownMessage self-end bg-[#d0e8c4] text-[#202124]"
-                                : "otherMessage self-start bg-[#202124]"
+                                : "otherMessage self-start bg-[#202124] text-white"
                             }`}
                         >
                           <span
@@ -334,8 +334,78 @@ const ChatPage = ({ socket, props }) => {
               </div>
             </div>
           </div>
+
+          
         </div>
+      
       </div>
+
+      <div class="border-r border-gray-300 lg:col-span-1">
+            <div class="mx-3 my-3">
+              <div class="relative text-gray-600">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    class="w-6 h-6 text-gray-300"
+                  >
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  class="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
+                  name="search"
+                  placeholder="Search"
+                  required
+                />
+              </div>
+            </div>
+
+            <ul class="overflow-auto h-[32rem] imgBckgside">
+              <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+              <li>
+                {listeUsers.map((Users) => (
+                  <a
+                    key={Users._id}
+                    onClick={() => {
+                      filterPrivateMessage(Users._id);
+                      changeChat(Users._id, Users.name);
+                    }}
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-[#d0e8c4] focus:outline-none"
+                  >
+                    <img
+                      class="object-cover w-10 h-10 rounded-full"
+                      src="http://www.medqualityassurance.org/views/images/default_user.png"
+                      alt="username"
+                    />
+
+                    <div class="w-full pb-2">
+                      <div class="flex justify-between">
+                        <span class="block ml-2 font-semibold text-gray-600">
+                          <div className="chatroom">
+                            <div className="">{Users.name}</div>
+                          </div>
+                        </span>
+
+                        <span class="block ml-2 text-sm text-gray-600">
+                          25 minutes
+                        </span>
+                      </div>
+                      <span class="block ml-2 text-sm text-gray-600">bye</span>
+                    </div>
+                  </a>
+                ))}
+              </li>
+            </ul>
+          </div>
+     
+
+          
     </div>
   );
 };
