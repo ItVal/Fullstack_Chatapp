@@ -9,7 +9,7 @@ const Dashboard = (props) => {
   const [connectedId, setConnectedId] = React.useState("");
   const getChatrooms = () => {
     axios
-      .get("http://localhost:2080/chatroom", {
+      .get(import.meta.env.VITE_ROUTEALLCHATROOM, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -31,7 +31,7 @@ const Dashboard = (props) => {
   //get all users
   const getlisteUsers = () => {
     axios
-      .get("http://localhost:2080/user/all", {
+      .get(import.meta.env.VITE_ROUTEALLUSERS, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },

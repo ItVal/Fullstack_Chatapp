@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ChatPage = ({ socket }) => {
-  const [userId, setUserId] = React.useState("");
+const ChatPage = ({ socket, props }) => {
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
 
   const { id } = useParams();
   const idReceiver = id;
 
-  const [privatemessages, setPrivateMessages] = React.useState([]);
+  const [privatemessages, setPrivateMessages] = useState([]);
   const [recever, setRecever] = useState(undefined);
   const [recevername, setRecevername] = useState(undefined);
   const messageRef = React.useRef();
@@ -20,14 +21,14 @@ const ChatPage = ({ socket }) => {
 
   // filterPrivateMessage whitout socket
   async function filterPrivateMessage(friend) {
-    const req = await axios.post("http://localhost:2080/msg/" + id, {
+    const req = await axios.post(import.meta.env.VITE_ROUTEONEMESSAGE + id, {
       friend: friend,
     });
     setContact(friend);
     setPrivateMessages(req.data);
   }
   // console.log(import.meta.env.VITE_ROUTEONEMESSAGE)
- 
+
   const sendPMessage = () => {
     if (socket) {
       socket.emit("privateMessage", {
@@ -41,7 +42,8 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("newMessageSent", ({ idReceiver }) => {
-      if (idReceiver.toString() == recever.toString()) filterPrivateMessage(idReceiver);
+      if (idReceiver.toString() == recever.toString())
+        filterPrivateMessage(idReceiver);
     });
   }, [socket]);
 
@@ -84,32 +86,32 @@ const ChatPage = ({ socket }) => {
 
   // //get all messages
   // // get user
-  const [listchat, setListchat] = React.useState([]);
-  const getlisteMessages = () => {
-    axios
-      .get("http://localhost:2080/msg/all", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("CC_Token"),
-        },
-      })
-      .then((response) => {
-        setListchat(response.data);
-      })
-      .catch((err) => {
-        setTimeout(getlisteMessages, 3000);
-      });
-  };
+  // const [listchat, setListchat] = React.useState([]);
+  // const getlisteMessages = () => {
+  //   axios
+  //     .get(import.meta.env.VITE_ROUTEALLMESSAGES, {
+  //       headers: {
+  //         Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setListchat(response.data);
+  //     })
+  //     .catch((err) => {
+  //       setTimeout(getlisteMessages, 3000);
+  //     });
+  // };
 
-  React.useEffect(() => {
-    getlisteMessages();
-    // eslint-disable-next-line
-  }, []);
+  // React.useEffect(() => {
+  //   getlisteMessages();
+  //   // eslint-disable-next-line
+  // }, []);
 
   // get user
   const [listeUsers, setListeUsers] = React.useState([]);
   const getlisteUsers = () => {
     axios
-      .get("http://localhost:2080/user/all", {
+      .get(import.meta.env.VITE_ROUTEALLUSERSMOINSUN + id, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("CC_Token"),
         },
@@ -126,19 +128,21 @@ const ChatPage = ({ socket }) => {
     getlisteUsers();
     // eslint-disable-next-line
   }, []);
-  //logout
-  const leaveChat = () => {
-    localStorage.removeItem("CC_Token", response.data.token);
-    navigate("/");
-    // makeToast("logout success", response.data.message);
-    toast.success(response.data.message)
-    window.location.reload();
-  };
+
   const changeChat = (id, name) => {
     setRecever(id);
     setRecevername(name);
   };
-  console.log(recever);
+
+  //logout
+  const leaveChat = () => {
+    localStorage.removeItem("CC_Token", userId);
+    localStorage.removeItem("user", JSON.stringify(userId));
+    navigate("/login");
+    toast.success(response.data.message);
+    window.location.reload();
+  };
+
   return (
     <div className="chat justify-center mt-10 overflow-x-hidden">
       <div class=" container mx-auto ml-10 mt-10 mb-10 h-screen ">
@@ -179,11 +183,11 @@ const ChatPage = ({ socket }) => {
                       filterPrivateMessage(Users._id);
                       changeChat(Users._id, Users.name);
                     }}
-                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-[#d0e8c4] focus:outline-none"
                   >
                     <img
                       class="object-cover w-10 h-10 rounded-full"
-                      src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
+                      src="http://www.medqualityassurance.org/views/images/default_user.png"
                       alt="username"
                     />
 
@@ -215,39 +219,42 @@ const ChatPage = ({ socket }) => {
                     src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
                     alt="username"
                   />
-                  <span class="block ml-2 font-bold text-gray-600">
+                  <span class="block ml-2 font-bold text-[#202124]">
                     {recevername}
                   </span>
                   <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
                 </div>
                 <div class="groite">
-                  <span class="logout" onClick={leaveChat}>
-                    Logout
-                  </span>
+                  <img
+                    class="object-cover w-10 h-10 rounded-full"
+                    src="https://icons.veryicon.com/png/o/miscellaneous/jiankangxian/logout-43.png"
+                    alt="username"
+                    onClick={leaveChat}
+                  />
                 </div>
               </div>
               <div class="imgBckg imgBckgside overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
-                To Solola Ba Ndeko
                 <ul class="space-y-2">
                   <li class=" w-full ">
-                    <div class="relative px-4 py-2 text-gray-700 rounded w-full flex flex-col">
+                    <div class="relative px-4 py-2 rounded w-full flex flex-col">
                       {privatemessages.map((message, i) => (
                         <div
                           key={i}
-                          className={
-                            userId === message.idSender
-                              ? "ownMessage self-end"
-                              : "otherMessage self-start"
-                          }
+                          className={`rounded p-2   my-1 
+                            ${
+                              userId != message.idReceiver
+                                ? "ownMessage self-end bg-[#d0e8c4] text-[#202124]"
+                                : "otherMessage self-start bg-[#202124] text-white"
+                            }`}
                         >
                           <span
                             className={
-                              userId === message.idReceiver
-                                ? "ownMessage self-start"
-                                : "otherMessage self-end"
+                              recever === message.idReceiver
+                                ? " ownMessage self-start "
+                                : " otherMessage self-end bg"
                             }
                           >
-                            {message.name}:
+                            {/* {message.name} */}
                           </span>
                           {message.message}
                         </div>
@@ -257,7 +264,7 @@ const ChatPage = ({ socket }) => {
                 </ul>
               </div>
 
-              <div class="flex items-center justify-between w-full p-3 border-t border-gray-600">
+              <div class="flex items-center justify-between w-full p-3 border-t bg-white border-gray-600">
                 <button class=" bg-white w-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -273,7 +280,7 @@ const ChatPage = ({ socket }) => {
                     />
                   </svg>
                 </button>
-                <button class=" bg-white w-10">
+                <button class=" bg-[#fdfdfd] w-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-500"
@@ -293,12 +300,12 @@ const ChatPage = ({ socket }) => {
                 <input
                   type="text"
                   placeholder="Message"
-                  class="block  flex-1 w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                  class="block  flex-1 w-full py-2 pl-4 mx-3 border-[#d0e8c4] border-2 border-solid rounded-full focus:outline-none focus:text-gray-700"
                   name="message"
                   ref={messageRef}
                   required
                 />
-                <button class=" bg-white w-10">
+                {/* <button class=" bg-white w-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-500"
@@ -313,12 +320,8 @@ const ChatPage = ({ socket }) => {
                       d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                     />
                   </svg>
-                </button>
-                <button
-                  class=" bg-white w-10"
-                  type="submit"
-                  onClick={sendPMessage}
-                >
+                </button> */}
+                <button class=" w-10" type="submit" onClick={sendPMessage}>
                   <svg
                     class="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                     xmlns="http://www.w3.org/2000/svg"
@@ -331,8 +334,78 @@ const ChatPage = ({ socket }) => {
               </div>
             </div>
           </div>
+
+          
         </div>
+      
       </div>
+
+      <div class="border-r border-gray-300 lg:col-span-1">
+            <div class="mx-3 my-3">
+              <div class="relative text-gray-600">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    class="w-6 h-6 text-gray-300"
+                  >
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  class="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
+                  name="search"
+                  placeholder="Search"
+                  required
+                />
+              </div>
+            </div>
+
+            <ul class="overflow-auto h-[32rem] imgBckgside">
+              <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+              <li>
+                {listeUsers.map((Users) => (
+                  <a
+                    key={Users._id}
+                    onClick={() => {
+                      filterPrivateMessage(Users._id);
+                      changeChat(Users._id, Users.name);
+                    }}
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-[#d0e8c4] focus:outline-none"
+                  >
+                    <img
+                      class="object-cover w-10 h-10 rounded-full"
+                      src="http://www.medqualityassurance.org/views/images/default_user.png"
+                      alt="username"
+                    />
+
+                    <div class="w-full pb-2">
+                      <div class="flex justify-between">
+                        <span class="block ml-2 font-semibold text-gray-600">
+                          <div className="chatroom">
+                            <div className="">{Users.name}</div>
+                          </div>
+                        </span>
+
+                        <span class="block ml-2 text-sm text-gray-600">
+                          25 minutes
+                        </span>
+                      </div>
+                      <span class="block ml-2 text-sm text-gray-600">bye</span>
+                    </div>
+                  </a>
+                ))}
+              </li>
+            </ul>
+          </div>
+     
+
+          
     </div>
   );
 };

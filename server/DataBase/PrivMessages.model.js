@@ -4,12 +4,12 @@ const msgSchema = new mongoose.Schema({
   idSender: {
     type: mongoose.Schema.Types.ObjectId,
     required: "idSender is required!",
-    ref: "UserA",
+    ref: "User",
   },
   idReceiver: {
     type: mongoose.Schema.Types.ObjectId,
     required: "idReceiver is required!",
-    ref: "UserB",
+    ref: "User",
   },
   message: {
     type: String,
