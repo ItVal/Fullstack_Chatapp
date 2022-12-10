@@ -155,7 +155,7 @@ const Login = (props) => {
             </button>
           </div>
 
-          <p className="mt-8 text-xs font-light text-center text-purple-600">
+          <p className="mt-8 text-xs font-light text-center text-[#40e66a]">
             {" "}
             Don't have an account?{" "}
             <a

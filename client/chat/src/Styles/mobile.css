@@ -1,3 +1,6 @@
+body{
+    overflow: hidden;
+}
 .titre{
     font-size: 40px;
     margin-right: 0px;
@@ -13,6 +16,14 @@
     margin-top:50px;
     margin-bottom: 0;
 }
+.logo2{
+    width: 8%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:20px;
+    margin-bottom: 0;
+}
+
 .homepage{
     display: flex;
     flex-direction: row;
@@ -49,6 +60,10 @@
 }
 .orbtn{
     margin-left: 40px; 
+}
+
+.register{
+    overflow-y: hidden;
 }
 
 @media screen and (max-width : 400px){ 
@@ -116,6 +131,15 @@
     margin-left: auto;
     margin-right: auto;
     margin-top:50px;
+    margin-bottom: 0;
+}
+
+/* register */
+.logo2{
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:30px;
     margin-bottom: 0;
 }
 
