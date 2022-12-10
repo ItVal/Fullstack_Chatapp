@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSender } from "../redux/action";
 import { toast } from "react-toastify";
 
+import "../Styles/mobile.css";
+
 const Login = (props) => {
   const { receiver } = useSelector((state) => state.userReducer);
 
