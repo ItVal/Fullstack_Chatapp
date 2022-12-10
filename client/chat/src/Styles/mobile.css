@@ -65,7 +65,9 @@ body{
 .register{
     overflow-y: hidden;
 }
-
+.contR{
+    margin-bottom: 130px;
+}
 @media screen and (max-width : 400px){ 
     /* home */
 .homepage{
@@ -122,7 +124,14 @@ body{
 .cont{
     width:20px;
 }
+.contR{
+    width:20px;
+    margin-bottom: 150px;
+}
 .myfor{
+    margin-left: 30px;
+}
+.myfor2{
     margin-left: 30px;
 }
 .orbtn{
@@ -143,6 +152,9 @@ body{
     margin-right: auto;
     margin-top:30px;
     margin-bottom: 0;
+}
+.myfor2{
+    margin-left: 30px;
 }
 
 }
