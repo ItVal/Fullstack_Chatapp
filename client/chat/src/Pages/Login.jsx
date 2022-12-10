@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import Navbar from "../components/Navbar";
 import logo from "../assets/Chat_Me__1_-removebg-preview.png"
 import "../Styles/login.css";
-import img from "../assets/Chat_Me__1_-removebg-preview.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setSender } from "../redux/action";
 import { toast } from "react-toastify";
@@ -66,7 +64,7 @@ const Login = (props) => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      
       <div className="logo">
       <img src={logo} alt="logo" />
       </div>
