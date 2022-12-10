@@ -50,13 +50,19 @@ const Register = (props) => {
     if (isAuth) navigate("/login");
   }, [isAuth, navigate]);
 
+
+  const loginPage = () =>{ 
+    let path = `/login`; 
+    navigate(path);
+  }
+
   return (
     <div className="register">
       <div className="logo2">
       <img src={logo} alt="logo" />
       </div>
     <div className="login relative flex flex-col justify-center mt-0 h-screen ">
-      <div className="cont w-full p-3 ml-auto mb-[120px] mr-auto bg-[#494949] rounded-md shadow-xl lg:max-w-lg">
+      <div className="contR w-full p-3 ml-auto mr-auto bg-[#494949] rounded-md shadow-xl lg:max-w-lg">
         <h1 className="text-3xl font-semibold text-center text-white uppercase">
           Sign up
         </h1>
@@ -135,8 +141,9 @@ const Register = (props) => {
           Already rester?{" "}
           <a 
           
-          href="/login" 
+          href="#" 
           className="font-medium text-white hover:underline"
+          onClick={loginPage}
           
           >
             Sign in

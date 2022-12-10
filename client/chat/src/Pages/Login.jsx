@@ -60,7 +60,10 @@ const Login = (props) => {
     if (isAuth) navigate(`/chat/${connectedUserId}`)
   }, [isAuth, navigate]);
 
- 
+  const registerPage = () =>{ 
+    let path = `/register`; 
+    navigate(path);
+  }
 
   return (
     <>
@@ -157,8 +160,9 @@ const Login = (props) => {
             {" "}
             Don't have an account?{" "}
             <a
-              href="/register"
+              href="#"
               className="font-medium text-white hover:underline"
+              onClick={registerPage}
             >
               Sign up
             </a>
