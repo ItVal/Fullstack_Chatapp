@@ -21,8 +21,8 @@ const Home = () => {
   
   <div className = "homepage ">
     <div className="first "> 
-    <h1 className="titre items-left text-left  mb-5 font-bold">To Solola ba<br /> ndeko ba bolingo <br /> platform</h1>
-    <p className="sousTitre">Keep the workflow going by centralizing all your tools and touchpoints in one platform. Made for profesional communication (team collaboration and private, DevOps and customer) </p>
+    <h1 className="titre ">To Solola ba<br /> Ndeko ba bolingo <br /> Platform</h1>
+    <p className="sousTitre items-left text-left ">Keep the workflow going by centralizing all your tools and touchpoints in one platform. Made for profesional communication (team collaboration and private, DevOps and customer) </p>
     <div className=" flex item-center justify-center gap-4 m-9">
           <button
               onClick={loginPage}
