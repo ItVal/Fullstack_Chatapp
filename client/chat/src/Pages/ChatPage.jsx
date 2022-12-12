@@ -15,7 +15,7 @@ const ChatPage = ({ socket, props }) => {
   const [recevername, setRecevername] = useState(undefined);
   const messageRef = React.useRef();
   const [contact, setContact] = useState("");
-  // const [myprivateMsg, setMyprivateMsg] = useState([]);
+  const [ischat, setIschat] = useState(false);
 
   const lastMessageRef = useRef(null);
 
@@ -24,6 +24,7 @@ const ChatPage = ({ socket, props }) => {
     const req = await axios.post(import.meta.env.VITE_ROUTEONEMESSAGE + id, {
       friend: friend,
     });
+    console.log("filter message");
     setContact(friend);
     setPrivateMessages(req.data);
   }
@@ -41,32 +42,29 @@ const ChatPage = ({ socket, props }) => {
   };
 
   useEffect(() => {
+    console.log({ idReceiver, recever });
     socket.on("newMessageSent", ({ idReceiver }) => {
-      if (idReceiver.toString() == recever.toString())
+      // if (idReceiver.toString() == recever.toString())
         filterPrivateMessage(idReceiver);
     });
   }, [socket]);
 
   useEffect(() => {
     const token = localStorage.getItem("CC_Token");
-    console.log("je suis dans useeffect");
+
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
-      console.log(payload.id);
     }
     if (socket) {
       socket.on("newPMessage", (message) => {
         const newPMessage = [...privatemessages, message];
         setPrivateMessages(newPMessage);
-        console.log("message envoyé");
       });
     }
-    console.log(privatemessages);
     //eslint-disable-next-line
   });
 
-  console.log(privatemessages);
   React.useEffect(() => {
     if (socket) {
       socket.emit("joinChat", {
@@ -145,9 +143,14 @@ const ChatPage = ({ socket, props }) => {
 
   return (
     <div className="chat justify-center mt-10 overflow-y-hidden">
-      <div class=" container mx-auto ml-10 mt-10 mb-10 h-screen ">
-        <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
-          <div class="border-r border-gray-300 lg:col-span-1">
+      <div className=" container mt-10 mb-10 h-screen ">
+        <div id="" class={` border rounded w-full flex`}>
+          <div
+            id="userM"
+            className={`${
+              ischat ? "hidden sm:block" : "w-full "
+            } border-r border-gray-300  sm:w-1/4`}
+          >
             <div class="md:container md:mx-auto my-1">
               <div class="relative text-gray-600">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -180,6 +183,7 @@ const ChatPage = ({ socket, props }) => {
                   <a
                     key={Users._id}
                     onClick={() => {
+                      setIschat(true);
                       filterPrivateMessage(Users._id);
                       changeChat(Users._id, Users.name);
                     }}
@@ -210,33 +214,38 @@ const ChatPage = ({ socket, props }) => {
               </li>
             </ul>
           </div>
-          <div class="hidden lg:col-span-2 lg:block">
-            <div class="w-full">
-              <div class="flex items-center justify-between p-3 border-b border-gray-300">
-                <div class="relative flex items-center p-3 border-b border-gray-300">
+
+          <div
+            className={`${
+              ischat ? "w-full " : "hidden sm:block"
+            }  sm:w-3/4  bg-white`}
+          >
+            <div className="w-full">
+              <div className="flex items-center justify-between p-3 border-b border-gray-300">
+                <div className="relative flex items-center p-3 border-b border-gray-300">
                   <img
-                    class="object-cover w-10 h-10 rounded-full"
+                    className="object-cover w-10 h-10 rounded-full"
                     src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
                     alt="username"
                   />
-                  <span class="block ml-2 font-bold text-[#202124]">
+                  <span className="block ml-2 font-bold text-[#202124]">
                     {recevername}
                   </span>
-                  <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+                  <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
                 </div>
-                <div class="groite">
+                <div className="groite">
                   <img
-                    class="object-cover w-10 h-10 rounded-full"
+                    className="object-cover w-10 h-10 rounded-full"
                     src="https://icons.veryicon.com/png/o/miscellaneous/jiankangxian/logout-43.png"
                     alt="username"
-                    onClick={leaveChat}
+                    onClick={() => setIschat(false)}
                   />
                 </div>
               </div>
-              <div class="imgBckg imgBckgside overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
-                <ul class="space-y-2">
-                  <li class=" w-full ">
-                    <div class="relative px-4 py-2 rounded w-full flex flex-col">
+              <div className="imgBckg imgBckgside overflow-auto h-[70vh] bg-white relative w-full p-6 overflow-y-auto ]">
+                <ul className="space-y-2">
+                  <li className=" w-full ">
+                    <div className="relative px-4 py-2 rounded w-full flex flex-col">
                       {privatemessages.map((message, i) => (
                         <div
                           key={i}
@@ -264,11 +273,11 @@ const ChatPage = ({ socket, props }) => {
                 </ul>
               </div>
 
-              <div class="flex items-center justify-between w-full p-3 border-t bg-white border-gray-600">
-                <button class=" bg-white w-10">
+              <div className="flex items-center justify-between w-full p-3 border-t bg-white border-gray-600">
+                <button className=" bg-white w-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 "
+                    className="w-6 h-6 "
                     fill="none"
                     stroke="currentColor"
                   >
@@ -334,16 +343,8 @@ const ChatPage = ({ socket, props }) => {
               </div>
             </div>
           </div>
-
-          
         </div>
-      
       </div>
-
-
-     
-
-          
     </div>
   );
 };
